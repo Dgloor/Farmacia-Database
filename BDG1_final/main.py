@@ -1,6 +1,3 @@
-# import pip
-# pip.main(['install', 'package_name'])
-
 class Sistema:
     m = """\n-- SISTEMA FARMACIA --\n 1. Ingreso Bodega\n 2. Egreso Bodega\n 3. Salir"""
 
