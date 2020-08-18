@@ -1,0 +1,309 @@
+Persona = {
+	cedula:string, nombre:string, apellido_paterno:string, apellido_materno:string, direccion:string
+	'0953496437' , 'Danny'  , 'Loor' , 'Nunez' , 'Guayaquil'  
+	'0951839273' , 'Mario' , 'Chalén' , 'Carvajal' , 'Guayaquil'
+	'0954364659' , 'Jorge' , 'Vulgarín' , 'Punguil' , 'Guayaquil'
+	'0123456789' , 'Alfredo' , 'Pacheco' , 'Castillo', 'Milagro'
+	'1234568987' , 'María' , 'Roca' , 'Zambrano' , 'Guayaquil'
+	'2345678910' , 'José' , 'Malo' , 'Villamar', 'Samborondón'
+	'2356974001' , 'Martha' , 'Idrovo' , 'Cañarte' , 'Durán'
+	'2597651685' , 'Mickey' , 'Bejarano' , 'Martillo' , 'Yaguachi'
+	'0954311867' , 'Thalía' , 'Chavarría' , 'López' , 'Guayaquil'
+	'0641631432' , 'Patricio' , 'Álava' , 'Tomalá' , 'Durán'
+	'0911004372', 'María', 'Torres', 'Barros', 'Guayaquil'
+	'0943761342', 'Alison', 'Zavala', 'Alcívar', 'Durán'
+	'1353687923', 'Eduardo', 'Morán', 'Guananga', 'Durán'
+	'1498736112', 'Ángel', 'Letamendi', 'Guale', 'Yaguachi'
+	'0945742830', 'Josefina', 'Gómez', 'García', 'Guayaquil'
+}
+
+Persona_Telefonos = {
+	id_persona:string, numero:string
+	'0953496437'  , '042985426'
+	'0953496437'  , '0953496437'
+	'0951839273'	, '042562559'
+	'0951839273'	, '0979688148'
+	'0954364659'	, '0996325624'
+	'0954364659'	, '042472149'
+	'0123456789' 	, '072552681'
+	'0123456789' 	, '0926314492'
+	'1234568987' 	, '022317431'
+	'1234568987' 	, '0958642371'
+	'2345678910' 	, '072573249'
+	'2345678910' 	, '0957842672'
+	'2356974001' 	, '042574293'
+	'2356974001' 	, '0945374212'
+	'2597651685' 	, '042487293'
+	'2597651685' 	, '0953472863'
+	'0954311867'	, '042527619'
+	'0954311867'	, '0936421274'
+	'0641631432'	, '042576821'
+	'0641631432'	, '0953642751'
+	'0911004372'	, '042547321'
+	'0911004372'	, '0857842672'	
+	'0943761342'	, '042874475'
+	'0943761342'	, '0938731834'
+	'1353687923'	, '02246834'
+	'1353687923'	, '0974862713'
+	'1498736112'	, '042371142'
+	'1498736112'	, '0984726741'
+	'0945742830'	, '042573971'
+	'0945742830'	, '0947821723'
+}
+
+Persona_Correos = {
+	id_persona:string, correo:string             
+	'0953496437'  , 'danny_loor00@hotmail.com'
+	'0953496437'  , 'dannyloor00@gmail.com'   
+	'0953496437'  , 'dgloor@edu.ec' 
+	'0951839273'	, 'marces312001@hotmail.com'
+	'0951839273'	, 'marces312001@gmail.com'
+	'0951839273'	, 'mcchalen@espol.edu.ec' 
+	'0954364659'	, 'adrivulgarin@hotmail.com'
+	'0954364659'	, 'adrivularin15042001@gmail.com'
+	'0954364659'	, 'jvlugari@espol.edu.ec'         
+	'0123456789' 	, 'alfrepach2000@yahoo.com'
+	'0123456789' 	, 'alfpacheco15@gmail.com'
+	'1234568987' 	, 'mrocazambra4@hotmail.com'
+	'1234568987' 	, 'mariarocazambr1999@gmail.com'
+	'2345678910' 	, 'josemalo2002@outlook.com'
+	'2345678910' 	, 'jmalovillamar31@gmail.com'
+	'2356974001' 	, 'marthaidrovo2000@hotmail.com'
+	'2356974001' 	, 'maridrovo7@gmail.com'
+	'2597651685' 	, 'mickeybejamar2001@outlook.com'
+	'2597651685' 	, 'mbejarano032001@gmail.com'
+	'0954311867'	, 'tchavalop1997@yahoo.com'
+	'0641631432'	, 'patricioalava1998@hotmail.com'
+	'0911004372'	, 'mariatorres1999@hotmail.com'
+	'0911004372'	, 'mtorresbarros@gmail.com'	
+	'0943761342'	, 'alizavalaalcivar@hotmail.com'
+	'1353687923'	, 'edumoranguananga@outlook.com'
+	'1353687923'	, 'edumoran2001@gmail.com'
+	'1498736112'	, 'angeleta2000@outlook.com'
+	'1498736112'	, 'angeletaguale@gmail.com'	
+	'0945742830'	, 'josegomezgarcia@hotmail.com'
+
+}
+
+Cliente = {
+	id_cliente:string
+	'01485454321'
+	'09854653414'
+	'12310985321'
+	'12095465321'
+	'08414145321'
+	'85521433453'
+	'98465345345'
+	'09653214545'
+}
+
+Categoria = {
+	id_categoria:number, nombre:string, descripcion:string
+	1, 'antibiótico','combatir infecciones' 
+	2, 'analgésico','para el dolor muscular'
+	3, 'deportivo','uso especifico para deportistas activos'
+	4, 'antipirético','medicamento para la fiebre'
+	5, 'antihistaminico','medicamentos para las alergias'
+	6, 'antiinflamatorio','medicamentos para reducir la inflamacion'
+	7, 'tranquilizante','medicamento para reducir el estres o la carga emocional'
+}
+
+Medicamento = {
+	id_medicamento:number, nombre:string, precio_unitario:number
+	1, 'paracentamol', 0.10
+	2, 'ibuprofeno', 0.15
+	3, 'gatorade', 1.00
+	4, 'analgan', 0.20
+	5, 'pasinerva', 2.40
+	6, 'voltaren', 1.50
+}
+
+Categoria_Medicamento = {
+	id_medicamento:number, id_categoria:number
+	1, 4
+	1, 2
+	3, 3
+	2, 2
+	2, 6
+	4, 1
+	5, 7
+	6, 6
+}
+Farmacia = {
+	id_farmacia:number, id_jefe:string
+	1, '0951839273'
+	2, '0953496437'
+	3, '0954364659'
+	4, '0954311867'
+	5, '0641631432'
+}
+
+
+
+Empleado_Farmacia = {
+	id_empleado:string, id_farmacia:number, sueldo:number
+	'0911004372', 1, 500
+	'0943761342', 2, 600
+	'1353687923', 3, 500
+	'1498736112', 4, 500
+	'0945742830', 5, 600
+
+}
+
+
+
+Localidad = {
+	id_farmacia:number, calle_principal:string, calle_secundaria:string, canton:string, provincia:string, referencia:string
+	1, 'Av. Guano', 'Penipe', 'Guayaquil', 'Guayas', 'Parque Acuático Juan Montalvo'
+	2, 'Av. Amazonas', 'Av. Samuel Cisneros', 'Durán', 'Guayas', 'SuperAKI Primavera I'
+	3, 'Manuel Galecio', 'Boyacá', 'Guayaquil', 'Guayas', 'Estación Metrovía Luis Vernaza'
+	4, 'Av. Las Monjas', 'Calle Primera', 'Guayaquil', 'Guayas', 'Florería Bouquete'
+	5, 'Av. 25 de Julio', 'Chambers', 'Guayaquil', 'Guayas', 'Estación Metrovía Sagrada Familia - Oeste"'
+}
+
+Unidad_Medicamento = {
+	id_medicamento:number, numero_serie:number, fecha_caducidad:date
+	1, 571821, 2020-12-14
+	1, 589426, 2021-05-28
+	2, 548390, 2020-10-11
+	2, 561420, 2022-08-20
+	3, 452718, 2021-11-12
+	3, 464520, 2020-07-25
+}
+
+Stock_Farmacia_Medicamento = {
+	id_farmacia:number, id_medicamento:number, stock_minimo:number, stock_actual:number
+	1, 1, 100, 250
+	1, 2, 90, 90
+	1, 3, 100, 280
+	1, 4, 100, 320
+	1, 5, 100, 250
+	1, 6, 100, 320
+	2, 1, 80, 80
+	2, 2, 100, 100
+	2, 3, 85, 85
+	2, 4, 100, 782
+	2, 5, 135, 135
+	2, 6, 100, 764
+	3, 1, 100, 100
+	3, 2, 115, 115
+	3, 3, 100, 326
+	3, 4, 100, 352
+	3, 5, 100, 100
+	3, 6, 100, 771
+	4, 1, 100, 723
+	4, 2, 80, 80
+	4, 3, 100, 573
+	4, 4, 120, 120
+	4, 5, 100, 734
+	4, 6, 85, 85
+	5, 1, 100, 302
+	5, 2, 100, 100
+	5, 3, 100, 394
+	5, 4, 90, 90
+	5, 5, 100, 386
+	5, 6, 100, 263	
+}
+
+
+
+	Factura = {
+		id_factura:number, id_empleado:string, id_cliente:string, fecha:date, total:number , iva:number
+		1001, '0911004372', '01485454321', 2020-05-15, 20.00, 12
+		1002, '1498736112', '09854653414', 2015-04-15, 25.54, 12
+		1003, '0911004372', '85521433453', 2016-04-15, 15.45, 12
+		1004, '0945742830', '08414145321', 2019-05-16, 25.25, 12
+		1005, '0911004372', '09653214545', 2019-08-16, 5.65, 12
+		1006, '1498736112', '98465345345', 2016-07-14, 6.20, 12
+		1007, '1353687923', '09854653414', 2020-05-03, 89.65, 12
+		1008, '0943761342', '12310985321', 2005-09-08, 25.20, 12
+		1009, '1353687923', '12095465321', 2019-09-08, 15.10, 12	    
+    }
+
+
+
+	Venta_Unidad_Medicamento = {
+		id_venta_medicamento:number, id_factura:number, unidad_medicamento:number
+		1, 1001,2
+		2, 1002,3 
+		3, 1003,2
+		4, 1004,3
+		5, 1005,1
+		6, 1006,1
+	}
+
+
+
+    Bodega={
+	    id_bodega:number, id_admin_bodega:string, direccion:string
+	    1, '0641631432', 'Alarcon y calle 35'
+	    2, '0911004372', '36 y portete'
+	    3, '0943761342', 'Garcia Gollena y Pedro Pablo Gomez'
+	    4, '1498736112', 'Rumichaca y Manuel Galecio'
+	    5, '0945742830', '26 y Maldonado'
+    }
+
+
+    Bodega_unidad_medicamento = {
+	    id_unidad_medicamento:number, id_bodega:number
+	    571821, 1
+	    589426, 2
+	    548390, 3
+	    561420, 3
+	    452718, 4
+	    464520, 5
+    }
+
+Bodeguero={
+	    id_bodeguero:string, id_bodega:number
+	    "0123456789", 1
+	    "1234568987", 2
+	    "2345678910", 3
+	    "2356974001", 4
+	    "2597651685", 5
+    }
+
+
+    Registro = {
+	    id_registro:number, id_bodeguero:number, fecha_solicitud:date, justificativo:string
+	    1, "0123456789", 2001-04-15 , "Salida de medicamentos para la farmacia 1"
+	    2, "1234568987", 2002-05-15 , "Ingreso de medicamentos de la marca fibeca"
+	    3, "2345678910", 2008-05-22 , "Salida de mediacmentos para la farmacia 3"
+	    4, "2597651685", 2001-05-15 , "Ingreso de medicamento del proveedor farmacis"
+    }
+
+    
+    Ingreso ={
+	    id_ingreso:number, id_admin_bodega:string
+	    2, '0641631432'
+	    4, '0911004372'   
+    }
+
+    Ingreso_Bodega_Unidad={
+	    id_ingreso:number, numero_serie:number, cantidad:number
+	    2 , 571821 , 1000
+	    2 , 589426 , 1548
+	    2 , 548390 , 1266
+	    4 , 561420 , 1254
+	    4 , 452718 , 1365
+	    4 , 464520 , 1236
+    }
+
+    Egreso ={
+	    id_egreso:number, farmacia_destino:number, solicitante:string, fecha_egreso:date
+	    1 , 1 , "0123456789",2001-04-15
+	    2 , 2 , "0945742830",2002-05-15
+
+    }
+
+    Egreso_Bodega_Unidad={
+	    id_egreso:number, numero_serie:number,cantidad:number
+	    1 , 571821 , 125
+	    1 , 589426 , 125
+	    1 , 548390 , 123
+	    1 , 452718 , 124
+	    2 , 561420 , 321
+	    2 , 452718 , 387
+	    2 , 464520 , 89
+	    2 , 589426 , 879
+}
