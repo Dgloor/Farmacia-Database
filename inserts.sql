@@ -1,3 +1,4 @@
+drop database if exists g1;
 CREATE DATABASE if not exists G1;
 use g1;
 CREATE TABLE if not exists Persona
@@ -100,7 +101,7 @@ CREATE TABLE if not exists Factura
 
 CREATE TABLE if not exists Venta_Unidad_Medicamento
 (
-	id_venta_med INT PRIMARY KEY,
+	id_venta_medicamento INT PRIMARY KEY,
     id_factura INT NOT NULL,
     unidad_medicamento INT NOT NULL,
     FOREIGN KEY(id_factura) references Factura(id_factura),
@@ -110,20 +111,20 @@ CREATE TABLE if not exists Venta_Unidad_Medicamento
 CREATE TABLE if not exists Stock_Farmacia_Medicamento
 (
 	id_farmacia INT,
-    id_unidad_medicamento INT,
+    id_medicamento INT,
     stock_minimo INT NOT NULL,
     stock_actual INT NOT NULL, 
-    PRIMARY KEY(id_farmacia, id_unidad_medicamento),
+    PRIMARY KEY(id_farmacia, id_medicamento),
     FOREIGN KEY(id_farmacia) references Farmacia(id_farmacia),
-    FOREIGN KEY(id_unidad_medicamento) references Unidad_Medicamento(id_medicamento) 
+    FOREIGN KEY(id_medicamento) references Medicamento(id_medicamento) 
 );
 
 CREATE TABLE if not exists Bodega
 (
 	id_bodega INT PRIMARY KEY, 
-    id_admin VARCHAR(12) NOT NULL,
+    id_admin_bodega VARCHAR(12) NOT NULL,
     direccion VARCHAR(50) NOT NULL,
-    FOREIGN KEY(id_admin) references Persona(cedula)
+    FOREIGN KEY(id_admin_bodega) references Persona(cedula)
 );
 
 CREATE TABLE if not exists Bodeguero
