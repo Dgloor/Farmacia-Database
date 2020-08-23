@@ -14,7 +14,6 @@ class DataBase:
 
     def test_clientes(self):
         sql = 'SELECT * FROM cliente'
-
         self.cursor.execute(sql)
         clients = self.cursor.fetchall()
 
@@ -24,11 +23,19 @@ class DataBase:
         else:
             print("</> Tabla clientes vacía </>")
 
-    def ingreso(self):
-        pass
+    def getMedicamentos(self):
+        sql = """SELECT DISTINCT nombre FROM medicamento m 
+        inner join unidad_medicamento um on 
+        m.id_medicamento = um.id_medicamento
+        """
+        self.cursor.execute(sql)
+        meds = self.cursor.fetchall()
+        return meds
 
-    def egreso(self):
-        pass
+    def ingreso(self, **kwargs):
+        sql = ''
+        print(kwargs)
 
-db = DataBase()
-db.test_clientes()
+    def egreso(self, **kwargs):
+        sql = ''
+        print(kwargs)

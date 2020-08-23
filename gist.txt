@@ -292,7 +292,7 @@ Bodeguero={
     Egreso ={
 	    id_egreso:number, farmacia_destino:number, solicitante:string, fecha_egreso:date
 	    1 , 1 , "0123456789",2001-04-15
-	    2 , 2 , "0945742830",2002-05-15
+	    3 , 3 , "0945742830",2002-05-15
 
     }
 
