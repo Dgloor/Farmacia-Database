@@ -399,3 +399,63 @@ INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(  
 INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 452718 , 387);
 INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 464520 , 89);
 INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 589426 , 879);
+
+
+
+-------------------------------------- VIEWS 
+
+-- create view reporte_ingreso as 
+-- 	select b.direccion as direccion_bodega,
+-- 	concat(p.nombre, ' ', p.apellido_paterno) as solicitante, 
+-- 	r.fecha_solicitud, m.nombre as medicamento, ibd.cantidad
+-- 	from ingreso i
+-- 	inner join (registro r, bodega b, ingreso_bodega_unidad ibd,
+-- 	unidad_medicamento um, medicamento m, persona p)
+-- 	on (i.id_ingreso = r.id_registro and b.id_admin_bodega = i.id_admin_bodega 
+-- 	and i.id_ingreso = ibd.id_ingreso and um.numero_serie = ibd.numero_serie
+-- 	and um.id_medicamento = m.id_medicamento and p.cedula = b.id_admin_bodega)
+-- 	group by m.id_medicamento
+-- 	order by r.fecha_solicitud;
+
+-- select * from reporte_ingreso
+
+
+-- create view reporte_egreso as
+-- 	select b.direccion as direccion_bodega,
+-- 	concat(p.nombre, ' ', p.apellido_paterno) as solicitante_farmacia,
+--     concat(l.calle_principal, ' ', l.calle_secundaria) as direccion_farmacia,
+--     e.fecha_egreso, f.id_farmacia as nombre_farmacia, sum(ebu.cantidad) as cantidad
+-- 	from egreso e
+-- 	inner join (registro r, persona p, farmacia f, localidad l,
+-- 	egreso_bodega_unidad ebu, bodega b, bodeguero bo)
+-- 	on (e.id_egreso = r.id_registro and e.solicitante = p.cedula
+-- 	and f.id_farmacia = e.farmacia_destino
+-- 	and f.id_farmacia = l.id_farmacia
+-- 	and ebu.id_egreso = e.id_egreso
+-- 	and r.id_bodeguero = bo.id_bodeguero
+-- 	and bo.id_bodega = b.id_bodega)
+-- 	group by e.id_egreso
+-- 	order by e.fecha_egreso;
+
+-- select * from reporte_egreso
+
+-- create view frecuencia_compras as 
+-- 	select cat.nombre as nombre_categoria,
+-- 	c.id_cliente as nombre_cliente,
+-- 	count(cat.id_categoria) as frecuencia_compra,
+-- 	sum(f.total) as total_compras
+-- 	from factura f 
+-- 	inner join (cliente c, venta_unidad_medicamento vum , categoria_medicamento cm, categoria cat)
+-- 	on (c.id_cliente = f.id_cliente
+-- 	and f.id_factura = vum.id_factura
+-- 	and vum.unidad_medicamento = cm.id_medicamento
+-- 	and cm.id_categoria = cat.id_categoria)
+-- 	group by cat.id_categoria
+-- 	order by cat.nombre asc
+
+-- select * from frecuencia_compras;
+
+
+
+
+
