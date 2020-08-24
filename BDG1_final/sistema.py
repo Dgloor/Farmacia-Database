@@ -34,13 +34,12 @@ class Sistema:
         solicitante = input("Solicitante: ")
         bodeguero = input("Bodeguero: ")
         justificativo = input("Justificativo: ")
-        medicina = input("Medicina: ")
         n_serie = input("Número de Serie: ")
         fecha_cad = input("Fecha de caducidad: ")
         cantidad = input("Cantidad: ")
 
         data = self.validar_ingreso(solicitante=solicitante, bodeguero=bodeguero,
-                                    justificativo=justificativo, medicina=medicina,
+                                    justificativo=justificativo,
                                     n_serie=n_serie, fecha_cad=fecha_cad,
                                     cantidad=cantidad)
         if data != -1:
@@ -52,10 +51,13 @@ class Sistema:
     def egreso(self):
         print("\n-- Egreso Bodega -- ")
 
-        bodeguero = input("Bodeguero: ")
+        self.mostrar_emp('Bodegueros')
+        bodeguero = input("Bodeguero (n): ")
         justificativo = input("Justificativo: ")
-        farmacia = input("Farmacia destino: ")
-        n_serie = input("N. serie medicamento: ")
+        self.mostrar_farmacias()
+        farmacia = input("Farmacia destino (n): ")
+        self.mostrar_meds()
+        n_serie = input("Numero de serie medicamento: ")
         cantidad = input("Cantidad: ")
 
         data = self.validar_egreso(bodeguero=bodeguero, justificativo=justificativo,
@@ -86,13 +88,23 @@ class Sistema:
         print(meds)
 
     def mostrar_farmacias(self):
-        pass
+        farmacias = self.db.get_farmacias()
+        print('\n== Farmacias ==')
+        print(f'n | Nombre')
+        print('-' * 18)
 
-    def mostrar_admins(self):
-        pass
+        for info in farmacias:
+            i_d, nombre = info
+            print(str(i_d) + ' | ' + nombre)
 
-    def mostrar_bodegueros(self):
-        pass
+    def mostrar_emp(self, tipo):
+        emps = self.db.get_empleados(tipo)
+        print(f'\n== {tipo} ==')
+        print(f'n | Cedula {" "* 4}| Nombre')
+        print('-' * 36)
+        for i, info_emp in enumerate(emps):
+            cedula, nombre = info_emp
+            print(str(i+1) + ' | ' + cedula + ' | ' + nombre)
 
     @staticmethod
     def exit():
@@ -100,4 +112,7 @@ class Sistema:
 
     def test(self):
         self.mostrar_meds()
+        self.mostrar_farmacias()
+        self.mostrar_emp('Admins Bodega')
+        self.mostrar_emp('Bodegueros')
 

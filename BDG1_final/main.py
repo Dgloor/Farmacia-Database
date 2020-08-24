@@ -1,5 +1,6 @@
 from sistema import Sistema
 
+# Database config
 host = 'localhost'
 user = 'root'
 password = ''
