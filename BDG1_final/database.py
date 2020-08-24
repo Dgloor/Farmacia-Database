@@ -2,15 +2,19 @@ import pymysql
 
 
 class DataBase:
-    def __init__(self):
-        self.connection = pymysql.connect(
-            host='localhost',
-            user='root',
-            password='',
-            db='G1'
-        )
-        self.cursor = self.connection.cursor()
-        print("</> Conexión establecida con éxito </>")
+    def __init__(self, host, user, password, db_name):
+        try:
+            self.connection = pymysql.connect(
+                host=host,
+                user=user,
+                password=password,
+                db=db_name
+            )
+            self.cursor = self.connection.cursor()
+            print("</> Conexión establecida con éxito. </>")
+
+        except pymysql.DatabaseError:
+            raise ValueError("Base no conectada")
 
     def test_clientes(self):
         sql = 'SELECT * FROM cliente'
@@ -23,8 +27,10 @@ class DataBase:
         else:
             print("</> Tabla clientes vacía </>")
 
-    def getMedicamentos(self):
-        sql = """SELECT DISTINCT nombre FROM medicamento m 
+    def get_medicamentos(self):
+        sql = """SELECT DISTINCT m.nombre,
+        m.id_medicamento, um.fecha_caducidad
+        FROM medicamento m 
         inner join unidad_medicamento um on 
         m.id_medicamento = um.id_medicamento
         """

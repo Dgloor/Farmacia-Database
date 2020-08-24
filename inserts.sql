@@ -1,4 +1,4 @@
-drop database if exists g1;
+-- DROP DATABASE IF EXISTS g1;
 CREATE DATABASE if not exists G1;
 use g1;
 CREATE TABLE if not exists Persona
@@ -26,8 +26,9 @@ CREATE TABLE if not exists Persona_Correos
 
 CREATE TABLE if not exists Farmacia
 (
-	id_farmacia INT PRIMARY KEY,
+	id_farmacia INT PRIMARY KEY AUTO_INCREMENT,
 	id_jefe VARCHAR(12) NOT NULL,
+    nombre VARCHAR(20) NOT NULL,
 	foreign key(id_jefe) references Persona(cedula)
 );
 
@@ -53,7 +54,7 @@ CREATE TABLE if not exists Empleado_Farmacia
     
 CREATE TABLE if not exists Medicamento
 (
-	id_medicamento INT PRIMARY KEY,
+	id_medicamento INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
 	precio_unitario DECIMAL(10,2) NOT NULL 
 );
@@ -62,13 +63,13 @@ CREATE TABLE if not exists Unidad_Medicamento
 (
 	id_medicamento INT NOT NULL, 
     numero_serie INT PRIMARY KEY, 
-    fecha_caducidad Date,
+    fecha_caducidad Date NOT NULL,
     FOREIGN KEY(id_medicamento) references Medicamento(id_medicamento)
 );
 
 CREATE TABLE if not exists Categoria
 (
-	id_categoria INT PRIMARY KEY, 
+	id_categoria INT PRIMARY KEY AUTO_INCREMENT, 
 	nombre VARCHAR(50) NOT NULL, 
 	descripcion VARCHAR(100) NOT NULL
 );
@@ -84,7 +85,8 @@ CREATE TABLE if not exists Categoria_Medicamento
 
 CREATE TABLE if not exists Cliente
 (
-	id_cliente VARCHAR(12) PRIMARY KEY 
+	id_cliente VARCHAR(12) PRIMARY KEY,
+    nombre VARCHAR(25) NOT NULL
 );
 
 CREATE TABLE if not exists Factura
@@ -121,7 +123,7 @@ CREATE TABLE if not exists Stock_Farmacia_Medicamento
 
 CREATE TABLE if not exists Bodega
 (
-	id_bodega INT PRIMARY KEY, 
+	id_bodega INT PRIMARY KEY AUTO_INCREMENT, 
     id_admin_bodega VARCHAR(12) NOT NULL,
     direccion VARCHAR(50) NOT NULL,
     FOREIGN KEY(id_admin_bodega) references Persona(cedula)
@@ -146,7 +148,7 @@ CREATE TABLE if not exists Bodega_unidad_medicamento
 
 CREATE TABLE if not exists Registro
 (
-	id_registro INT PRIMARY KEY, 
+	id_registro INT PRIMARY KEY AUTO_INCREMENT, 
 	id_bodeguero VARCHAR(12) NOT NULL, 
 	fecha_solicitud date  NOT NULL,
 	justificativo VARCHAR(100) NOT NULL,
@@ -266,27 +268,27 @@ INSERT INTO Persona_Correos  (id_persona,correo) VALUES('1353687923', 'edumoran2
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('1498736112', 'angeleta2000@outlook.com');
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('1498736112', 'angeletaguale@gmail.com');
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0945742830', 'josegomezgarcia@hotmail.com');
-INSERT INTO Cliente  (id_cliente) VALUES('01485454321');
-INSERT INTO Cliente  (id_cliente) VALUES('09854653414');
-INSERT INTO Cliente  (id_cliente) VALUES('12310985321');
-INSERT INTO Cliente  (id_cliente) VALUES('12095465321');
-INSERT INTO Cliente  (id_cliente) VALUES('08414145321');
-INSERT INTO Cliente  (id_cliente) VALUES('85521433453');
-INSERT INTO Cliente  (id_cliente) VALUES('98465345345');
-INSERT INTO Cliente  (id_cliente) VALUES('09653214545');
-INSERT INTO Categoria  (id_categoria,nombre,descripcion) VALUES(1, 'antibiótico','combatir infecciones' );
-INSERT INTO Categoria  (id_categoria,nombre,descripcion) VALUES(2, 'analgésico','para el dolor muscular');
-INSERT INTO Categoria  (id_categoria,nombre,descripcion) VALUES(3, 'deportivo','uso especifico para deportistas activos');
-INSERT INTO Categoria  (id_categoria,nombre,descripcion) VALUES(4, 'antipirético','medicamento para la fiebre');
-INSERT INTO Categoria  (id_categoria,nombre,descripcion) VALUES(5, 'antihistaminico','medicamentos para las alergias');
-INSERT INTO Categoria  (id_categoria,nombre,descripcion) VALUES(6, 'antiinflamatorio','medicamentos para reducir la inflamacion');
-INSERT INTO Categoria  (id_categoria,nombre,descripcion) VALUES(7, 'tranquilizante','medicamento para reducir el estres o la carga emocional');
-INSERT INTO Medicamento  (id_medicamento,nombre,precio_unitario) VALUES(1, 'paracentamol', 0.10);
-INSERT INTO Medicamento  (id_medicamento,nombre,precio_unitario) VALUES(2, 'ibuprofeno', 0.15);
-INSERT INTO Medicamento  (id_medicamento,nombre,precio_unitario) VALUES(3, 'gatorade', 1.00);
-INSERT INTO Medicamento  (id_medicamento,nombre,precio_unitario) VALUES(4, 'analgan', 0.20);
-INSERT INTO Medicamento  (id_medicamento,nombre,precio_unitario) VALUES(5, 'pasinerva', 2.40);
-INSERT INTO Medicamento  (id_medicamento,nombre,precio_unitario) VALUES(6, 'voltaren', 1.50);
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('01485454321', 'Jose Lita');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('09854653414', 'Misael Bohorquez');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('12310985321', 'Catalina Camacho');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('12095465321', 'Ruben Clemente');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('08414145321', 'Paula Umpierrez');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('85521433453', 'Paula Barahona');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('98465345345', 'Aaron Soria');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('09653214545', 'Genesis Pluas');
+INSERT INTO Categoria  (nombre,descripcion) VALUES('antibiótico','combatir infecciones' );
+INSERT INTO Categoria  (nombre,descripcion) VALUES('analgésico','para el dolor muscular');
+INSERT INTO Categoria  (nombre,descripcion) VALUES('deportivo','uso especifico para deportistas activos');
+INSERT INTO Categoria  (nombre,descripcion) VALUES('antipirético','medicamento para la fiebre');
+INSERT INTO Categoria  (nombre,descripcion) VALUES('antihistaminico','medicamentos para las alergias');
+INSERT INTO Categoria  (nombre,descripcion) VALUES('antiinflamatorio','medicamentos para reducir la inflamacion');
+INSERT INTO Categoria  (nombre,descripcion) VALUES('tranquilizante','medicamento para reducir el estres o la carga emocional');
+INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('paracentamol', 0.10);
+INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('ibuprofeno', 0.15);
+INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('gatorade', 1.00);
+INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('analgan', 0.20);
+INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('pasinerva', 2.40);
+INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('voltaren', 1.50);
 INSERT INTO Categoria_Medicamento  (id_medicamento,id_categoria) VALUES(1, 4);
 INSERT INTO Categoria_Medicamento  (id_medicamento,id_categoria) VALUES(1, 2);
 INSERT INTO Categoria_Medicamento  (id_medicamento,id_categoria) VALUES(3, 3);
@@ -295,11 +297,11 @@ INSERT INTO Categoria_Medicamento  (id_medicamento,id_categoria) VALUES(2, 6);
 INSERT INTO Categoria_Medicamento  (id_medicamento,id_categoria) VALUES(4, 1);
 INSERT INTO Categoria_Medicamento  (id_medicamento,id_categoria) VALUES(5, 7);
 INSERT INTO Categoria_Medicamento  (id_medicamento,id_categoria) VALUES(6, 6);
-INSERT INTO Farmacia  (id_farmacia,id_jefe) VALUES(1, '0951839273');
-INSERT INTO Farmacia  (id_farmacia,id_jefe) VALUES(2, '0953496437');
-INSERT INTO Farmacia  (id_farmacia,id_jefe) VALUES(3, '0954364659');
-INSERT INTO Farmacia  (id_farmacia,id_jefe) VALUES(4, '0954311867');
-INSERT INTO Farmacia  (id_farmacia,id_jefe) VALUES(5, '0641631432');
+INSERT INTO Farmacia  (id_jefe, nombre) VALUES('0951839273', 'Farmacis');
+INSERT INTO Farmacia  (id_jefe, nombre) VALUES('0953496437', 'Sana Sana');
+INSERT INTO Farmacia  (id_jefe, nombre) VALUES('0954364659', 'Fybeca');
+INSERT INTO Farmacia  (id_jefe, nombre) VALUES('0954311867', '24 horas');
+INSERT INTO Farmacia  (id_jefe, nombre) VALUES('0641631432', 'Cruz Azul');
 INSERT INTO Empleado_Farmacia  (id_empleado,id_farmacia,sueldo) VALUES('0911004372', 1, 500);
 INSERT INTO Empleado_Farmacia  (id_empleado,id_farmacia,sueldo) VALUES('0943761342', 2, 600);
 INSERT INTO Empleado_Farmacia  (id_empleado,id_farmacia,sueldo) VALUES('1353687923', 3, 500);
@@ -361,97 +363,96 @@ INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_me
 INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(4, 1004,3);
 INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(5, 1005,1);
 INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(6, 1006,1);
-INSERT INTO     Bodega (id_bodega,id_admin_bodega,direccion) VALUES(    1, '0641631432', 'Alarcon y calle 35');
-INSERT INTO     Bodega (id_bodega,id_admin_bodega,direccion) VALUES(    2, '0911004372', '36 y portete');
-INSERT INTO     Bodega (id_bodega,id_admin_bodega,direccion) VALUES(    3, '0943761342', 'Garcia Gollena y Pedro Pablo Gomez');
-INSERT INTO     Bodega (id_bodega,id_admin_bodega,direccion) VALUES(    4, '1498736112', 'Rumichaca y Manuel Galecio');
-INSERT INTO     Bodega (id_bodega,id_admin_bodega,direccion) VALUES(    5, '0945742830', '26 y Maldonado');
-INSERT INTO     Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(    571821, 1);
-INSERT INTO     Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(    589426, 2);
-INSERT INTO     Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(    548390, 3);
-INSERT INTO     Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(    561420, 3);
-INSERT INTO     Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(    452718, 4);
-INSERT INTO     Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(    464520, 5);
-INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES(    "0123456789", 1);
-INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES(    "1234568987", 2);
-INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES(    "2345678910", 3);
-INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES(    "2356974001", 4);
-INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES(    "2597651685", 5);
-INSERT INTO     Registro  (id_registro,id_bodeguero,fecha_solicitud,justificativo) VALUES(    1, "0123456789",STR_TO_DATE(' 2001-04-15 ', '%Y-%m-%d'), "Salida de medicamentos para la farmacia 1");
-INSERT INTO     Registro  (id_registro,id_bodeguero,fecha_solicitud,justificativo) VALUES(    2, "1234568987",STR_TO_DATE(' 2002-05-15 ', '%Y-%m-%d'), "Ingreso de medicamentos de la marca fibeca");
-INSERT INTO     Registro  (id_registro,id_bodeguero,fecha_solicitud,justificativo) VALUES(    3, "2345678910",STR_TO_DATE(' 2008-05-22 ', '%Y-%m-%d'), "Salida de mediacmentos para la farmacia 3");
-INSERT INTO     Registro  (id_registro,id_bodeguero,fecha_solicitud,justificativo) VALUES(    4, "2597651685",STR_TO_DATE(' 2001-05-15 ', '%Y-%m-%d'), "Ingreso de medicamento del proveedor farmacis");
-INSERT INTO     Ingreso  (id_ingreso,id_admin_bodega) VALUES(    2, '0641631432');
-INSERT INTO     Ingreso  (id_ingreso,id_admin_bodega) VALUES(    4, '0911004372'   );
-INSERT INTO     Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 571821 , 1000);
-INSERT INTO     Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 589426 , 1548);
-INSERT INTO     Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 548390 , 1266);
-INSERT INTO     Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 561420 , 1254);
-INSERT INTO     Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 452718 , 1365);
-INSERT INTO     Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 464520 , 1236);
-INSERT INTO     Egreso  (id_egreso,farmacia_destino,solicitante,fecha_egreso) VALUES(    1 , 1 , "0123456789",STR_TO_DATE('2001-04-15', '%Y-%m-%d'));
-INSERT INTO     Egreso  (id_egreso,farmacia_destino,solicitante,fecha_egreso) VALUES(    3 , 2 , "0945742830",STR_TO_DATE('2002-05-15', '%Y-%m-%d'));
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 571821 , 125);
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 589426 , 125);
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 548390 , 123);
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 452718 , 124);
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 561420 , 321);
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 452718 , 387);
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 464520 , 89);
-INSERT INTO     Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 589426 , 879);
-
+INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0641631432', 'Alarcon y calle 35');
+INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0911004372', '36 y portete');
+INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0943761342', 'Garcia Gollena y Pedro Pablo Gomez');
+INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('1498736112', 'Rumichaca y Manuel Galecio');
+INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0945742830', '26 y Maldonado');
+INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 571821, 1);
+INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 589426, 2);
+INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 548390, 3);
+INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 561420, 3);
+INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 452718, 4);
+INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(  464520, 5);
+INSERT INTO	Bodeguero (id_bodeguero,id_bodega) VALUES( "0123456789", 1);
+INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "1234568987", 2);
+INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2345678910", 3);
+INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2356974001", 4);
+INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2597651685", 5);
+INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("0123456789",STR_TO_DATE(' 2001-04-15 ', '%Y-%m-%d'), "Salida de medicamentos para la farmacia 1");
+INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("1234568987",STR_TO_DATE(' 2002-05-15 ', '%Y-%m-%d'), "Ingreso de medicamentos de la marca fibeca");
+INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("2345678910",STR_TO_DATE(' 2008-05-22 ', '%Y-%m-%d'), "Salida de mediacmentos para la farmacia 3");
+INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("2597651685",STR_TO_DATE(' 2001-05-15 ', '%Y-%m-%d'), "Ingreso de medicamento del proveedor farmacis");
+INSERT INTO Ingreso  (id_ingreso,id_admin_bodega) VALUES( 2, '0641631432');
+INSERT INTO Ingreso  (id_ingreso,id_admin_bodega) VALUES( 4, '0911004372'   );
+INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 571821 , 1000);
+INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 589426 , 1548);
+INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 548390 , 1266);
+INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 561420 , 1254);
+INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 452718 , 1365);
+INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 464520 , 1236);
+INSERT INTO Egreso  (id_egreso,farmacia_destino,solicitante,fecha_egreso) VALUES(    1 , 1 , "0123456789",STR_TO_DATE('2001-04-15', '%Y-%m-%d'));
+INSERT INTO Egreso  (id_egreso,farmacia_destino,solicitante,fecha_egreso) VALUES(    3 , 2 , "0945742830",STR_TO_DATE('2002-05-15', '%Y-%m-%d'));
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 571821 , 125);
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 589426 , 125);
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 548390 , 123);
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 452718 , 124);
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 561420 , 321);
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 452718 , 387);
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 464520 , 89);
+INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 589426 , 879);
 
 
 -------------------------------------- VIEWS 
 
--- create view reporte_ingreso as 
--- 	select b.direccion as direccion_bodega,
--- 	concat(p.nombre, ' ', p.apellido_paterno) as solicitante, 
--- 	r.fecha_solicitud, m.nombre as medicamento, ibd.cantidad
--- 	from ingreso i
--- 	inner join (registro r, bodega b, ingreso_bodega_unidad ibd,
--- 	unidad_medicamento um, medicamento m, persona p)
--- 	on (i.id_ingreso = r.id_registro and b.id_admin_bodega = i.id_admin_bodega 
--- 	and i.id_ingreso = ibd.id_ingreso and um.numero_serie = ibd.numero_serie
--- 	and um.id_medicamento = m.id_medicamento and p.cedula = b.id_admin_bodega)
--- 	group by m.id_medicamento
--- 	order by r.fecha_solicitud;
+create view reporte_ingreso as 
+	select b.direccion as direccion_bodega,
+	concat(p.nombre, ' ', p.apellido_paterno) as solicitante, 
+	r.fecha_solicitud, m.nombre as medicamento, ibd.cantidad
+	from ingreso i
+	inner join (registro r, bodega b, ingreso_bodega_unidad ibd,
+	unidad_medicamento um, medicamento m, persona p)
+	on (i.id_ingreso = r.id_registro and b.id_admin_bodega = i.id_admin_bodega 
+	and i.id_ingreso = ibd.id_ingreso and um.numero_serie = ibd.numero_serie
+	and um.id_medicamento = m.id_medicamento and p.cedula = b.id_admin_bodega)
+	group by m.id_medicamento
+	order by r.fecha_solicitud;
 
--- select * from reporte_ingreso
+-- select * from reporte_ingreso;
 
+create view reporte_egreso as
+	select b.direccion as direccion_bodega,
+	concat(p.nombre, ' ', p.apellido_paterno) as solicitante_farmacia,
+    f.nombre as nombre_farmacia,
+    concat(l.calle_principal, ' ', l.calle_secundaria) as direccion_farmacia,
+    e.fecha_egreso, sum(ebu.cantidad) as cantidad
+	from egreso e
+	inner join (registro r, persona p, farmacia f, localidad l,
+	egreso_bodega_unidad ebu, bodega b, bodeguero bo)
+	on (e.id_egreso = r.id_registro and e.solicitante = p.cedula
+	and f.id_farmacia = e.farmacia_destino
+	and f.id_farmacia = l.id_farmacia
+	and ebu.id_egreso = e.id_egreso
+	and r.id_bodeguero = bo.id_bodeguero
+	and bo.id_bodega = b.id_bodega)
+	group by e.id_egreso
+	order by e.fecha_egreso;
 
--- create view reporte_egreso as
--- 	select b.direccion as direccion_bodega,
--- 	concat(p.nombre, ' ', p.apellido_paterno) as solicitante_farmacia,
---     concat(l.calle_principal, ' ', l.calle_secundaria) as direccion_farmacia,
---     e.fecha_egreso, f.id_farmacia as nombre_farmacia, sum(ebu.cantidad) as cantidad
--- 	from egreso e
--- 	inner join (registro r, persona p, farmacia f, localidad l,
--- 	egreso_bodega_unidad ebu, bodega b, bodeguero bo)
--- 	on (e.id_egreso = r.id_registro and e.solicitante = p.cedula
--- 	and f.id_farmacia = e.farmacia_destino
--- 	and f.id_farmacia = l.id_farmacia
--- 	and ebu.id_egreso = e.id_egreso
--- 	and r.id_bodeguero = bo.id_bodeguero
--- 	and bo.id_bodega = b.id_bodega)
--- 	group by e.id_egreso
--- 	order by e.fecha_egreso;
+-- select * from reporte_egreso;
 
--- select * from reporte_egreso
-
--- create view frecuencia_compras as 
--- 	select cat.nombre as nombre_categoria,
--- 	c.id_cliente as nombre_cliente,
--- 	count(cat.id_categoria) as frecuencia_compra,
--- 	sum(f.total) as total_compras
--- 	from factura f 
--- 	inner join (cliente c, venta_unidad_medicamento vum , categoria_medicamento cm, categoria cat)
--- 	on (c.id_cliente = f.id_cliente
--- 	and f.id_factura = vum.id_factura
--- 	and vum.unidad_medicamento = cm.id_medicamento
--- 	and cm.id_categoria = cat.id_categoria)
--- 	group by cat.id_categoria
--- 	order by cat.nombre asc
+CREATE VIEW frecuencia_compras as 
+	select cat.nombre as nombre_categoria,
+	c.nombre as nombre_cliente,
+	count(cat.id_categoria) as frecuencia_compra,
+	sum(f.total) as total_compras
+	from factura f 
+	inner join (cliente c, venta_unidad_medicamento vum , categoria_medicamento cm, categoria cat)
+	on (c.id_cliente = f.id_cliente
+	and f.id_factura = vum.id_factura
+	and vum.unidad_medicamento = cm.id_medicamento
+	and cm.id_categoria = cat.id_categoria)
+	group by cat.id_categoria
+	order by cat.nombre asc
 
 -- select * from frecuencia_compras;
 
