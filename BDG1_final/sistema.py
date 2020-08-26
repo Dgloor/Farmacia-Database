@@ -3,11 +3,11 @@ import datetime
 
 
 class Sistema:
-    m = """\n-- SISTEMA FARMACIA --\n 1. Ingreso Bodega\n 2. Egreso Bodega\n 3. Salir\n 4. test"""
+    m = """\n-- SISTEMA FARMACIA --\n 1. Ingreso Bodega\n 2. Egreso Bodega\n 3. Salir"""
 
     def __init__(self, host, user, password, db_name):
         self.op = ''
-        self.options = {'1': self.ingreso, '2': self.egreso, '3': self.exit, '4': self.test}
+        self.options = {'1': self.ingreso, '2': self.egreso, '3': self.exit}
         self.db = -1
         try:
             pass
@@ -51,22 +51,18 @@ class Sistema:
 
     def egreso(self):
         print("\n-- Egreso Bodega -- ")
-
-        self.select_emp('Bodegueros')
-        bodeguero = input("Bodeguero (n): ")
+        bodeguero = self.select_emp('Bodegueros')
         justificativo = input("Justificativo: ")
-        self.select_farmacia()
-        farmacia = input("Farmacia destino (n): ")
-        # self.mostrar_meds()
-        n_serie = input("Numero de serie medicamento: ")
-        cantidad = input("Cantidad: ")
+        farmacia = self.select_farmacia()
+        n_serie = self.select_unidad_med(bodeguero)
+        cantidad = int(input("Cantidad: "))
 
         data = self.validar_egreso(bodeguero=bodeguero, justificativo=justificativo,
                                    farmacia=farmacia, n_serie=n_serie,
                                    cantidad=cantidad)
         if data != -1:
-            print("\n</> Procesando transacción. </>")
-            print(data)
+            print("\nProcesando transacción...")
+            self.db.egreso(data)
         else:
             print("\n<X> Datos incorrectos, intente nuevamente <X>")
 
@@ -86,9 +82,21 @@ class Sistema:
 
         return emps[pos - 1][0]
 
+    def select_farmacia(self) -> int:
+        farmacias = self.db.get_farmacias()
+        print('\n== Farmacias ==')
+        print(f'n | Nombre')
+        print('-' * 18)
+        for info in farmacias:
+            i_d, nombre = info
+            print(str(i_d) + ' | ' + nombre)
+
+        pos = int(input("Farmacia destino (n): "))
+        return pos
+
     def select_med(self) -> int:
         meds = self.db.get_medicamentos()
-        print(f'\n== CATALOGO MEDICAMENTOS ==')
+        print('\n== CATALOGO MEDICAMENTOS ==')
         print(f'n | Nombre')
         print('-' * 20)
         for m in meds:
@@ -99,8 +107,18 @@ class Sistema:
         pos = int(input("Medicamento (n): "))
         return pos
 
-    def select_unidad_med(self) -> int:
-        pass
+    def select_unidad_med(self, id_bodeguero) -> int:
+        u_meds = self.db.get_unidad_medicamentos(id_bodeguero)
+        print('\n== CATALOGO UNIDAD MEDICAMENTOS ==')
+        print(f'N. Serie | {"Nombre":^13} | {"Caducidad":^10} | {"Stock bodega":^10}')
+        print('-' * 53)
+        for u_m in u_meds:
+            n_serie, nombre, fecha_cad, stock = u_m
+            row = f"{str(n_serie):<8} | {nombre:<13} | {fecha_cad} | {stock:^10}"
+            print(row)
+
+        n_serie = int(input("Numero de serie medicamento: "))
+        return n_serie
 
     @staticmethod
     def validar_ingreso(**kwargs) -> [dict, int]:
@@ -116,23 +134,10 @@ class Sistema:
                 return -1
         return kwargs
 
-    def select_farmacia(self) -> int:
-        farmacias = self.db.get_farmacias()
-        print('\n== Farmacias ==')
-        print(f'n | Nombre')
-        print('-' * 18)
 
-        for info in farmacias:
-            i_d, nombre = info
-            print(str(i_d) + ' | ' + nombre)
-
-        return 0
 
     @staticmethod
     def exit():
         print("\n</> Sistema Finalizado </>")
-
-    def test(self):
-        pass
 
 
