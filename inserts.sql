@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS g1;
+DROP DATABASE IF EXISTS g1;
 CREATE DATABASE if not exists G1;
 use g1;
 CREATE TABLE if not exists Persona
@@ -453,10 +453,29 @@ CREATE VIEW frecuencia_compras as
 	and cm.id_categoria = cat.id_categoria)
 	group by cat.id_categoria
 	order by cat.nombre asc
-
+;
 -- select * from frecuencia_compras;
 
 
 
+-- procedimientos 
 
 
+-- procedimiento para el ingreso a bodega
+DROP PROCEDURE IF EXISTS RegistrarIngreso;
+DELIMITER ||
+-- datos necesarios solicitante bodeguero juestificativo medicina n_seri fecha_caducidad cantidad
+CREATE PROCEDURE RegistrarIngreso ( in solicitante varchar(12) , in bodeguero varchar(12), in Justificativo varchar(100), in medicina int, in nSerie int , in caducidad date, in cantidad int )
+begin
+	start transaction;
+		INSERT INTO Registro(id_bodeguero,fecha_solicitud,justificativo) values (bodeguero, date(now()),Justificativo);
+        INSERT INTO Ingreso(id_ingreso,id_admin_bodega) values ((select max(id_registro) from Registro),solicitante);
+        INSERT INTO Unidad_Medicamento(id_medicamento,numero_serie,fecha_caducidad) values (medicina,nSerie,caducidad);
+        INSERT INTO Ingreso_Bodega_Unidad(id_ingreso,numero_serie,cantidad ) values ((select max(id_ingreso) from Ingreso),nSerie,cantidad);
+        FLUSH TABLES;
+	commit;
+end ||
+DELIMITER ;
+
+-- ejemplo de ingreso de midicamento mediante el procedimiento adecuado
+call RegistrarIngreso ('0945742830','0123456789', 'este es un ejemplo de un procedure',1,501171,date(now()),10);
