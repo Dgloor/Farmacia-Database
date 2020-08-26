@@ -1,5 +1,5 @@
 from database import DataBase
-from collections import namedtuple
+import datetime
 
 
 class Sistema:
@@ -30,33 +30,34 @@ class Sistema:
 
     def ingreso(self):
         print("\n-- Ingreso Bodega --")
-
-        solicitante = input("Solicitante: ")
-        bodeguero = input("Bodeguero: ")
+        solicitante = self.select_emp('Admins Bodega')
+        bodeguero = self.select_emp('Bodegueros')
         justificativo = input("Justificativo: ")
-        n_serie = input("Número de Serie: ")
-        fecha_cad = input("Fecha de caducidad: ")
-        cantidad = input("Cantidad: ")
+        medicamento = self.select_med()
+        n_serie = int(input("Número de Serie (6 cifras): "))
+        f = input("Fecha de caducidad (yyyy-mm-dd): ").split('-')
+        fecha_cad = datetime.date(int(f[0]), int(f[1]), int(f[2]))
+        cantidad = int(input("Cantidad: "))
 
         data = self.validar_ingreso(solicitante=solicitante, bodeguero=bodeguero,
-                                    justificativo=justificativo,
+                                    justificativo=justificativo, medicamento=medicamento,
                                     n_serie=n_serie, fecha_cad=fecha_cad,
                                     cantidad=cantidad)
         if data != -1:
-            print("\n</> Procesando transacción. </>")
-            print(data)
+            print("\nProcesando transacción...")
+            self.db.ingreso(data)
         else:
             print("\n<X> Datos incorrectos, intente nuevamente <X>")
 
     def egreso(self):
         print("\n-- Egreso Bodega -- ")
 
-        self.mostrar_emp('Bodegueros')
+        self.select_emp('Bodegueros')
         bodeguero = input("Bodeguero (n): ")
         justificativo = input("Justificativo: ")
-        self.mostrar_farmacias()
+        self.select_farmacia()
         farmacia = input("Farmacia destino (n): ")
-        self.mostrar_meds()
+        # self.mostrar_meds()
         n_serie = input("Numero de serie medicamento: ")
         cantidad = input("Cantidad: ")
 
@@ -69,25 +70,53 @@ class Sistema:
         else:
             print("\n<X> Datos incorrectos, intente nuevamente <X>")
 
-    @staticmethod
-    def validar_ingreso(**kwargs):
-        for dato in kwargs.values():
-            if dato == '':
-                return -1
-        return kwargs
+    def select_emp(self, tipo) -> str:
+        emps = self.db.get_empleados(tipo)
+        print(f'\n== {tipo.upper()} ==')
+        print(f'n | Cedula {" " * 4}| Nombre')
+        print('-' * 36)
+        for i, info_emp in enumerate(emps):
+            cedula, nombre = info_emp
+            print(str(i + 1) + ' | ' + cedula + ' | ' + nombre)
 
-    @staticmethod
-    def validar_egreso(**kwargs):
-        for dato in kwargs.values():
-            if dato == '':
-                return -1
-        return kwargs
+        t = 'Solicitante'
+        if tipo == 'Bodegueros':
+            t = 'Bodeguero'
+        pos = int(input(f"{t} (n): "))
 
-    def mostrar_meds(self):
+        return emps[pos - 1][0]
+
+    def select_med(self) -> int:
         meds = self.db.get_medicamentos()
-        print(meds)
+        print(f'\n== CATALOGO MEDICAMENTOS ==')
+        print(f'n | Nombre')
+        print('-' * 20)
+        for m in meds:
+            id_med, nombre = m
+            row = f"{str(id_med)} | {nombre}"
+            print(row)
 
-    def mostrar_farmacias(self):
+        pos = int(input("Medicamento (n): "))
+        return pos
+
+    def select_unidad_med(self) -> int:
+        pass
+
+    @staticmethod
+    def validar_ingreso(**kwargs) -> [dict, int]:
+        for dato in kwargs.values():
+            if dato == '':
+                return -1
+        return kwargs
+
+    @staticmethod
+    def validar_egreso(**kwargs) -> [dict, int]:
+        for dato in kwargs.values():
+            if dato == '':
+                return -1
+        return kwargs
+
+    def select_farmacia(self) -> int:
         farmacias = self.db.get_farmacias()
         print('\n== Farmacias ==')
         print(f'n | Nombre')
@@ -97,22 +126,13 @@ class Sistema:
             i_d, nombre = info
             print(str(i_d) + ' | ' + nombre)
 
-    def mostrar_emp(self, tipo):
-        emps = self.db.get_empleados(tipo)
-        print(f'\n== {tipo} ==')
-        print(f'n | Cedula {" "* 4}| Nombre')
-        print('-' * 36)
-        for i, info_emp in enumerate(emps):
-            cedula, nombre = info_emp
-            print(str(i+1) + ' | ' + cedula + ' | ' + nombre)
+        return 0
 
     @staticmethod
     def exit():
         print("\n</> Sistema Finalizado </>")
 
     def test(self):
-        self.mostrar_meds()
-        self.mostrar_farmacias()
-        self.mostrar_emp('Admins Bodega')
-        self.mostrar_emp('Bodegueros')
+        pass
+
 

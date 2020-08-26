@@ -1,3 +1,8 @@
+/*
+Cambios Realizados en el modelo:
+- Se añadieron columnas de nombre para farmacia y cliente
+*/
+
 DROP DATABASE IF EXISTS g1;
 CREATE DATABASE if not exists G1;
 use g1;
@@ -403,7 +408,7 @@ INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 
 INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    3 , 589426 , 879);
 
 
--------------------------------------- VIEWS 
+----------------------------------------------------------- VIEWS 
 
 create view reporte_ingreso as 
 	select b.direccion as direccion_bodega,
@@ -458,24 +463,24 @@ CREATE VIEW frecuencia_compras as
 
 
 
--- procedimientos 
+-------------------------------------------------------- PROCEDURES
 
-
--- procedimiento para el ingreso a bodega
 DROP PROCEDURE IF EXISTS RegistrarIngreso;
 DELIMITER ||
--- datos necesarios solicitante bodeguero juestificativo medicina n_seri fecha_caducidad cantidad
-CREATE PROCEDURE RegistrarIngreso ( in solicitante varchar(12) , in bodeguero varchar(12), in Justificativo varchar(100), in medicina int, in nSerie int , in caducidad date, in cantidad int )
-begin
-	start transaction;
-		INSERT INTO Registro(id_bodeguero,fecha_solicitud,justificativo) values (bodeguero, date(now()),Justificativo);
-        INSERT INTO Ingreso(id_ingreso,id_admin_bodega) values ((select max(id_registro) from Registro),solicitante);
-        INSERT INTO Unidad_Medicamento(id_medicamento,numero_serie,fecha_caducidad) values (medicina,nSerie,caducidad);
-        INSERT INTO Ingreso_Bodega_Unidad(id_ingreso,numero_serie,cantidad ) values ((select max(id_ingreso) from Ingreso),nSerie,cantidad);
-        FLUSH TABLES;
-	commit;
-end ||
+CREATE PROCEDURE registrar_ingreso (
+	in solicitante varchar(12) , in bodeguero varchar(12), in justif varchar(100), 
+    in medicina int, in nSerie int , in caducidad date, in cantidad int 
+    )
+BEGIN
+	START TRANSACTION;
+		INSERT INTO Registro(id_bodeguero, fecha_solicitud, justificativo) 
+			VALUES (bodeguero, date(now()), justif);
+        INSERT INTO Ingreso(id_ingreso, id_admin_bodega) 
+			VALUES ((select max(id_registro) FROM Registro), solicitante);
+        INSERT INTO Unidad_Medicamento(id_medicamento, numero_serie, fecha_caducidad) 
+			VALUES (medicina, nSerie, caducidad);
+        INSERT INTO Ingreso_Bodega_Unidad(id_ingreso, numero_serie, cantidad) 
+			VALUES ((select max(id_ingreso) FROM Ingreso), nSerie, cantidad);
+	COMMIT;
+END ||
 DELIMITER ;
-
--- ejemplo de ingreso de midicamento mediante el procedimiento adecuado
-call RegistrarIngreso ('0945742830','0123456789', 'este es un ejemplo de un procedure',1,501171,date(now()),10);

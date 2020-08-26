@@ -16,23 +16,10 @@ class DataBase:
         except pymysql.DatabaseError:
             raise ValueError("Base no conectada")
 
-    def test_clientes(self):
-        sql = 'SELECT * FROM cliente'
-        self.cursor.execute(sql)
-        clients = self.cursor.fetchall()
-
-        if len(clients) != 0:
-            for client in clients:
-                print(f'Client id: {client[0]}')
-        else:
-            print("</> Tabla clientes vacía </>")
-
     def get_medicamentos(self):
         sql = """
-        SELECT DISTINCT um.numero_serie, m.nombre, um.fecha_caducidad
-        FROM medicamento m 
-        inner join unidad_medicamento um on 
-        m.id_medicamento = um.id_medicamento
+        SELECT id_medicamento, nombre
+        FROM medicamento;
         """
         self.cursor.execute(sql)
         meds = self.cursor.fetchall()
@@ -67,10 +54,19 @@ class DataBase:
         empleados = self.cursor.fetchall()
         return empleados
 
-    def ingreso(self, **kwargs):
-        sql = ''
-        print(kwargs)
+    def ingreso(self, data):
+        sql = f"""
+        CALL registrar_ingreso (
+        '{data['solicitante']}', '{data['bodeguero']}',
+        '{data['justificativo']}', {data['medicamento']},
+        {data['n_serie']}, {data['fecha_cad']}, 
+        {data['cantidad']}
+        );"""
 
-    def egreso(self, **kwargs):
-        sql = ''
-        print(kwargs)
+        self.cursor.execute(sql)
+        print("</> Unidades ingresadas con éxito </>")
+
+    def egreso(self, data):
+        sql = f"""
+        """
+        self.cursor.execute(sql)
