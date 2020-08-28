@@ -142,12 +142,13 @@ CREATE TABLE if not exists Bodeguero
     FOREIGN KEY(id_bodega) references Bodega(id_bodega)
 );
 
-CREATE TABLE if not exists Bodega_unidad_medicamento
+CREATE TABLE if not exists Stock_Bodega
 (
-	id_unidad_medicamento INT,
+	numero_serie INT,
     id_bodega INT, 
-    PRIMARY KEY(id_unidad_medicamento, id_bodega),
-    FOREIGN KEY(id_unidad_medicamento) references Unidad_Medicamento(numero_serie),
+    stock_actual INT NOT NULL,
+    PRIMARY KEY(numero_serie, id_bodega),
+    FOREIGN KEY(numero_serie) references Unidad_Medicamento(numero_serie),
     FOREIGN KEY(id_bodega) references Bodega(id_bodega)
 );
 
@@ -373,12 +374,12 @@ INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0911004372', '36 y portet
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0943761342', 'Garcia Gollena y Pedro Pablo Gomez');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('1498736112', 'Rumichaca y Manuel Galecio');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0945742830', '26 y Maldonado');
-INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 571821, 1);
-INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 589426, 2);
-INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 548390, 3);
-INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 561420, 3);
-INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES( 452718, 4);
-INSERT INTO Bodega_unidad_medicamento  (id_unidad_medicamento,id_bodega) VALUES(  464520, 5);
+INSERT INTO Stock_Bodega  (numero_serie,id_bodega) VALUES( 571821, 1);
+INSERT INTO Stock_Bodega  (numero_serie,id_bodega) VALUES( 589426, 2);
+INSERT INTO Stock_Bodega  (numero_serie,id_bodega) VALUES( 548390, 3);
+INSERT INTO Stock_Bodega  (numero_serie,id_bodega) VALUES( 561420, 3);
+INSERT INTO Stock_Bodega  (numero_serie,id_bodega) VALUES( 452718, 4);
+INSERT INTO Stock_Bodega  (numero_serie,id_bodega) VALUES( 464520, 5);
 INSERT INTO	Bodeguero (id_bodeguero,id_bodega) VALUES( "0123456789", 1);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "1234568987", 2);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2345678910", 3);
@@ -457,10 +458,9 @@ CREATE VIEW frecuencia_compras as
 	and vum.unidad_medicamento = cm.id_medicamento
 	and cm.id_categoria = cat.id_categoria)
 	group by cat.id_categoria
-	order by cat.nombre asc
-;
+	order by cat.nombre asc;
+    
 -- select * from frecuencia_compras;
-
 
 
 -------------------------------------------------------- PROCEDURES

@@ -27,29 +27,16 @@ class DataBase:
 
     def get_unidad_medicamentos(self, id_bodeguero):
         sql = f"""
-        SELECT um.numero_serie, m.nombre, um.fecha_caducidad, stock_bodega.restante
-        FROM (
-            SELECT i.numero_serie, i.cantidad - IFNULL(e.cantidad, 0) as restante
-            FROM (
-                SELECT ibu.numero_serie, ibu.cantidad FROM ingreso i
-                INNER JOIN (ingreso_bodega_unidad ibu, registro r)
-                ON(i.id_ingreso = ibu.id_ingreso AND r.id_registro = i.id_ingreso)
-                WHERE r.id_bodeguero = '{id_bodeguero}'
-            ) i
-            LEFT JOIN (
-                SELECT ebu.numero_serie, ebu.cantidad
-                FROM egreso e
-                inner join(egreso_bodega_unidad ebu, registro r)
-                ON(e.id_egreso = ebu.id_egreso and r.id_registro = e.id_egreso)
-                WHERE r.id_bodeguero = '{id_bodeguero}'
-            ) e
-            ON i.numero_serie = e.numero_serie
-            GROUP BY numero_serie
-        ) stock_bodega
-        INNER JOIN(medicamento m, unidad_medicamento um)
-        ON( stock_bodega.numero_serie = um.numero_serie
-            and um.id_medicamento = m.id_medicamento
-        ) order by m.nombre asc
+        SELECT sb.numero_serie, m.nombre, um.fecha_caducidad, sb.stock_actual
+        FROM stock_bodega sb
+        INNER JOIN (unidad_medicamento um, medicamento m)
+        ON (sb.numero_serie = um.numero_serie and m.id_medicamento = um.id_medicamento)
+        WHERE sb.id_bodega = (
+            SELECT b.id_bodega FROM bodega b INNER JOIN bodeguero bo 
+            ON b.id_bodega = bo.id_bodega 
+            WHERE bo.id_bodeguero = '{id_bodeguero}'
+            )
+        order by m.nombre asc;
         """
         self.cursor.execute(sql)
         u_meds = self.cursor.fetchall()
