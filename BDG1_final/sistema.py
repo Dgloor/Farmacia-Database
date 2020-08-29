@@ -32,30 +32,22 @@ class Sistema:
         print("\n-- Ingreso Bodega --")
         solicitante = self.select_emp('Admins Bodega')
         bodeguero = self.select_emp('Bodegueros')
-        justificativo = input("Justificativo: ")
-        medicamento = self.select_med()
-        n_serie = int(input("Número de Serie (6 cifras): "))
-        f = input("Fecha de caducidad (yyyy-mm-dd): ").split('-')
-        fecha_cad = datetime.date(int(f[0]), int(f[1]), int(f[2]))
-        cantidad = int(input("Cantidad: "))
+        justificativo = input("\nJustificativo: ")
+        medicamentos = self.select_meds()
+        if medicamentos != {}:
+            data = {'solicitante': solicitante, 'bodeguero': bodeguero,
+                    'justificativo': justificativo, 'medicamentos': medicamentos}
 
-        data = self.validar_ingreso(solicitante=solicitante, bodeguero=bodeguero,
-                                    justificativo=justificativo, medicamento=medicamento,
-                                    n_serie=n_serie, fecha_cad=fecha_cad,
-                                    cantidad=cantidad)
-        if data != -1:
             print("\nProcesando transacción...")
             self.db.ingreso(data)
-        else:
-            print("\n<X> Datos incorrectos, intente nuevamente <X>")
 
     def egreso(self):
         print("\n-- Egreso Bodega -- ")
         bodeguero = self.select_emp('Bodegueros')
-        justificativo = input("Justificativo: ")
+        justificativo = input("\nJustificativo: ")
         farmacia = self.select_farmacia()
         n_serie = self.select_unidad_med(bodeguero)
-        cantidad = int(input("Cantidad: "))
+        cantidad = int(input("\nCantidad: "))
 
         data = self.validar_egreso(bodeguero=bodeguero, justificativo=justificativo,
                                    farmacia=farmacia, n_serie=n_serie,
@@ -68,7 +60,7 @@ class Sistema:
 
     def select_emp(self, tipo) -> str:
         emps = self.db.get_empleados(tipo)
-        print(f'\n== {tipo.upper()} ==')
+        print(f'\n====== {tipo.upper()} ======')
         print(f'n | Cedula {" " * 4}| Nombre')
         print('-' * 36)
         for i, info_emp in enumerate(emps):
@@ -94,7 +86,8 @@ class Sistema:
         pos = int(input("Farmacia destino (n): "))
         return pos
 
-    def select_med(self) -> int:
+    def select_meds(self) -> dict:
+        medicamentos = {}
         meds = self.db.get_medicamentos()
         print('\n== CATALOGO MEDICAMENTOS ==')
         print(f'n | Nombre')
@@ -104,8 +97,19 @@ class Sistema:
             row = f"{str(id_med)} | {nombre}"
             print(row)
 
-        pos = int(input("Medicamento (n): "))
-        return pos
+        id_med = 0
+        while id_med != -1:
+            id_med = int(input("\nMedicamento (n), ('-1' para continuar): "))
+            if id_med != -1:
+                n_serie = int(input("Número de Serie (6 cifras): "))
+                f = input("Fecha de caducidad (yyyy-mm-dd): ").split('-')
+                fecha_cad = datetime.date(int(f[0]), int(f[1]), int(f[2]))
+                cantidad = int(input("Cantidad: "))
+
+                medicamentos[id_med] = {'n_serie': n_serie, 'cantidad': cantidad,
+                                        'fecha_cad': fecha_cad}
+
+        return medicamentos
 
     def select_unidad_med(self, id_bodeguero) -> int:
         u_meds = self.db.get_unidad_medicamentos(id_bodeguero)
@@ -117,15 +121,8 @@ class Sistema:
             row = f"{str(n_serie):<8} | {nombre:<13} | {fecha_cad} | {stock:^10}"
             print(row)
 
-        n_serie = int(input("Numero de serie medicamento: "))
+        n_serie = int(input("\nNumero de serie medicamento: "))
         return n_serie
-
-    @staticmethod
-    def validar_ingreso(**kwargs) -> [dict, int]:
-        for dato in kwargs.values():
-            if dato == '':
-                return -1
-        return kwargs
 
     @staticmethod
     def validar_egreso(**kwargs) -> [dict, int]:
@@ -134,10 +131,6 @@ class Sistema:
                 return -1
         return kwargs
 
-
-
     @staticmethod
     def exit():
         print("\n</> Sistema Finalizado </>")
-
-

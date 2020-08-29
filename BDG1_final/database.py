@@ -1,4 +1,5 @@
 import pymysql
+import datetime
 
 
 class DataBase:
@@ -8,7 +9,8 @@ class DataBase:
                 host=host,
                 user=user,
                 password=password,
-                db=db_name
+                db=db_name,
+                charset='utf8'
             )
             self.cursor = self.connection.cursor()
             print("</> Conexión establecida con éxito. </>")
@@ -72,19 +74,51 @@ class DataBase:
         return empleados
 
     def ingreso(self, data):
-        sql = f"""
-        CALL registrarIngreso (
-        '{data['solicitante']}', '{data['bodeguero']}',
-        '{data['justificativo']}', {data['medicamento']},
-        {data['n_serie']}, {data['fecha_cad']}, 
-        {data['cantidad']}
-        );"""
 
-        self.cursor.execute(sql)
-        print("</> Unidades ingresadas con éxito </>")
+        sql = f"""
+            INSERT INTO registro(id_bodeguero, fecha_solicitud, justificativo) 
+            VALUES('{data['bodeguero']}', date(now()), '{data['justificativo']}');
+
+            INSERT INTO ingreso(id_ingreso, id_admin_bodega)
+            VALUES((select max(id_registro) FROM registro), '{data['solicitante']}');
+
+            SET @bodega = (SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = '{data['bodeguero']}');
+        """
+
+        for id_med, info in data['medicamentos'].items():
+            n_serie, cantidad, fecha_cad = list(info.values())
+
+            sql += f"""
+            INSERT INTO Unidad_Medicamento(id_medicamento, numero_serie, fecha_caducidad)
+            VALUES({id_med}, {n_serie}, STR_TO_DATE('{fecha_cad}', '%Y-%m-%d'));
+
+            INSERT INTO Ingreso_Bodega_Unidad(id_ingreso, numero_serie, cantidad) 
+            VALUES ((select max(id_ingreso) FROM Ingreso), {n_serie}, {cantidad});
+
+            INSERT INTO Stock_Bodega(numero_serie, id_bodega, stock_actual)
+            VALUES((select numero_serie FROM Unidad_Medicamento where numero_serie =  {n_serie}), @bodega, {cantidad});
+            """
+        # print(sql)
+
+        try:
+            self.cursor.execute(sql)
+            self.connection.commit()
+            print("</> Unidades ingresadas con éxito </>")
+
+        except Exception:
+            self.connection.rollback()
+            print("<x> Transacción fallida <x>")
 
     def egreso(self, data):
         sql = f"""
+        CALL RegistrarEgreso (
+        '{data['bodeguero']}', '{data['justificativo']}',
+        {data['farmacia']},  {data['n_serie']},
+        {data['cantidad']} ,  @exitoso
+        );
         """
-        self.cursor.execute(sql)
-        print("</> Unidades enviadas a farmacia con éxito </>")
+        data['exitoso'] = None
+        exitoso = self.cursor.callproc('RegistrarEgreso', data)
+        print(exitoso)
+
+        # print("</> Unidades enviadas a farmacia con éxito </>")

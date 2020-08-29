@@ -1,6 +1,7 @@
 /*
 Cambios Realizados en el modelo:
 - Se añadieron columnas de nombre para farmacia y cliente
+- Se añadió una columna 'stock_actual' a la tabla stock_bodega * antes llamada bodega_uniadad_medicamento
 */
 
 DROP DATABASE IF EXISTS g1;
@@ -128,9 +129,9 @@ CREATE TABLE if not exists Stock_Farmacia_Medicamento
 
 CREATE TABLE if not exists Bodega
 (
-	id_bodega INT PRIMARY KEY AUTO_INCREMENT, 
-    id_admin_bodega VARCHAR(12) NOT NULL,
-    direccion VARCHAR(50) NOT NULL,
+	id_bodega INT PRIMARY KEY, 
+    id_admin_bodega VARCHAR(12),
+    direccion VARCHAR(50),
     FOREIGN KEY(id_admin_bodega) references Persona(cedula)
 );
 
@@ -146,7 +147,7 @@ CREATE TABLE if not exists Stock_Bodega
 (
 	numero_serie INT,
     id_bodega INT, 
-    stock_actual INT NOT NULL,
+    stock_actual INT,
     PRIMARY KEY(numero_serie, id_bodega),
     FOREIGN KEY(numero_serie) references Unidad_Medicamento(numero_serie),
     FOREIGN KEY(id_bodega) references Bodega(id_bodega)
@@ -380,7 +381,7 @@ INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 548390,
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 561420, 3,933);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 452718, 4,854);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 464520, 5,1147);
-INSERT INTO Bodeguero (id_bodeguero,id_admastock_actual ) VALUES( "0123456789", 1);
+INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "0123456789", 1);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "1234568987", 2);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2345678910", 3);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2356974001", 4);
@@ -390,7 +391,7 @@ INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("12345
 INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("2345678910",STR_TO_DATE(' 2008-05-22 ', '%Y-%m-%d'), "Salida de mediacmentos para la farmacia 3");
 INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("2597651685",STR_TO_DATE(' 2001-05-15 ', '%Y-%m-%d'), "Ingreso de medicamento del proveedor farmacis");
 INSERT INTO Ingreso  (id_ingreso,id_admin_bodega) VALUES( 2, '0641631432');
-INSERT INTO Ingreso  (id_ingreso,id_admin_bodega) VALUES( 4, '0911004372'   );
+INSERT INTO Ingreso  (id_ingreso,id_admin_bodega) VALUES( 4, '0911004372');
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 571821 , 1000);
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 589426 , 1548);
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 548390 , 1266);
@@ -467,7 +468,7 @@ CREATE VIEW frecuencia_compras as
 
 DROP PROCEDURE IF EXISTS RegistrarIngreso;
 DELIMITER ||
-CREATE PROCEDURE registrar_ingreso (
+CREATE PROCEDURE RegistrarIngreso (
 	in solicitante varchar(12) , in bodeguero varchar(12), in justif varchar(100), 
     in medicina int, in nSerie int , in caducidad date, in cantidad int 
     )
@@ -489,31 +490,37 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS RegistrarEgreso;
 DELIMITER ||
 CREATE PROCEDURE RegistrarEgreso 
-	(in bodeguero varchar(12), in justificativo varchar(1000), in farmacia int, in n_serie int, in cantidad int)
+	(in bodeguero varchar(12), in justificativo varchar(1000), in farmacia int, in n_serie int, in cantidad int, out exitoso boolean)
 BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
 		ROLLBACK;
+        set exitoso = false;
 	END;
 
 	START TRANSACTION;
 		SET @solicitante = (SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia);
 		INSERT INTO Registro(id_bodeguero, fecha_solicitud, justificativo) VALUES(bodeguero, date(now()), justificativo);
+        
         SET @idRegistro = (SELECT max(id_registro) FROM Registro);
         INSERT INTO Egreso VALUES(@idRegistro, farmacia, @solicitante, date(now()));
-        INSERT INTO EgresoBodegaUnidad VALUES(@idRegistro, n_serie, cantidad);
+        INSERT INTO Egreso_bodega_unidad VALUES(@idRegistro, n_serie, cantidad);
+        
         UPDATE Stock_Farmacia_Medicamento SET stock_actual = (stock_actual + cantidad) 
-        WHERE id_farmacia = farmacia AND id_medicamento = n_serie;
+			WHERE id_farmacia = farmacia AND id_medicamento = n_serie;
+            
         SET @bodega = (SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = bodeguero);
+        
         UPDATE Stock_Bodega SET stock_actual = (stock_actual - cantidad) 
-        WHERE id_bodega = @bodega AND numero_serie = n_serie;
+			WHERE id_bodega = @bodega AND numero_serie = n_serie;
         SET @stockBodega = (SELECT stock_actual FROM Stock_Bodega WHERE id_bodega = @bodega AND numero_serie = n_serie);
+        
 		IF @stockBodega < 0 THEN
-			ROLLBACK;
+			set exitoso = false;
+			ROLLBACK;        
 		ELSE
+			set exitoso = true;
 			COMMIT;
 		END IF;
 END ||
 DELIMITER ; 
-
-
