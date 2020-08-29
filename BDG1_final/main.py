@@ -3,7 +3,7 @@ from sistema import Sistema
 # Database config
 host = 'localhost'
 user = 'root'
-password = ''
+password = 'JorgeVulgarin15'
 db_name = 'G1'
 
 if __name__ == '__main__':

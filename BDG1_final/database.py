@@ -5,13 +5,11 @@ import datetime
 class DataBase:
     def __init__(self, host, user, password, db_name):
         try:
-            self.connection = pymysql.connect(
-                host=host,
-                user=user,
-                password=password,
-                db=db_name,
-                charset='utf8'
-            )
+            self.connection = pymysql.connect(host=host,
+                                              user=user,
+                                              password=password,
+                                              db=db_name,
+                                              charset='utf8')
             self.cursor = self.connection.cursor()
             print("</> Conexión establecida con éxito. </>")
 
@@ -30,18 +28,18 @@ class DataBase:
     def get_unidad_medicamentos(self, id_bodeguero):
         sql = f"""
         SELECT sb.numero_serie, m.nombre, um.fecha_caducidad, sb.stock_actual
-        FROM stock_bodega sb
-        INNER JOIN (unidad_medicamento um, medicamento m)
-        ON (sb.numero_serie = um.numero_serie and m.id_medicamento = um.id_medicamento)
-        WHERE sb.id_bodega = (
-            SELECT b.id_bodega FROM bodega b INNER JOIN bodeguero bo 
-            ON b.id_bodega = bo.id_bodega 
-            WHERE bo.id_bodeguero = '{id_bodeguero}'
-            )
-        order by m.nombre asc;
-        """
-        self.cursor.execute(sql)
-        u_meds = self.cursor.fetchall()
+            FROM stock_bodega sb
+            INNER JOIN (unidad_medicamento um, medicamento m)
+            ON (sb.numero_serie = um.numero_serie and m.id_medicamento = um.id_medicamento)
+            WHERE sb.id_bodega = (
+                SELECT b.id_bodega FROM bodega b INNER JOIN bodeguero bo 
+                ON b.id_bodega = bo.id_bodega 
+                WHERE bo.id_bodeguero = '{id_bodeguero}'
+                )
+            order by m.nombre asc;
+            """
+            self.cursor.execute(sql)
+            u_meds = self.cursor.fetchall()
         return u_meds
 
     def get_farmacias(self):
@@ -117,8 +115,10 @@ class DataBase:
         {data['cantidad']} ,  @exitoso
         );
         """
-        data['exitoso'] = None
-        exitoso = self.cursor.callproc('RegistrarEgreso', data)
+        #data['exitoso'] = None
+        print(data.values())
+        self.cursor.callproc('RegistrarEgreso', data)
+        exitoso = self.cursor.fetchone()
         print(exitoso)
 
         # print("</> Unidades enviadas a farmacia con éxito </>")
