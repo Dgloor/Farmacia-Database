@@ -1,7 +1,6 @@
 /*
 Cambios Realizados en el modelo:
 - Se añadieron columnas de nombre para farmacia y cliente
-- Se añadió la columna cantidad en la tabla Stock_Bodega (antes llamada Bodega_unidad_medicamento)
 */
 
 DROP DATABASE IF EXISTS g1;
@@ -356,14 +355,14 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 5, 100, 386);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 6, 100, 263);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1001, '0911004372', '01485454321',STR_TO_DATE(' 2020-05-15', '%Y-%m-%d'), 20.00, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1002, '1498736112', '09854653414',STR_TO_DATE(' 2015-04-15', '%Y-%m-%d'), 25.54, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1003, '0911004372', '85521433453',STR_TO_DATE(' 2016-04-15', '%Y-%m-%d'), 15.45, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1004, '0945742830', '08414145321',STR_TO_DATE(' 2019-05-16', '%Y-%m-%d'), 25.25, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1005, '0911004372', '09653214545',STR_TO_DATE(' 2019-08-16', '%Y-%m-%d'), 5.65, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1006, '1498736112', '98465345345',STR_TO_DATE(' 2016-07-14', '%Y-%m-%d'), 6.20, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1007, '1353687923', '09854653414',STR_TO_DATE(' 2020-05-03', '%Y-%m-%d'), 89.65, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '12310985321',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '12095465321',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12    );
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1002, '1498736112', '01485454321',STR_TO_DATE(' 2015-04-15', '%Y-%m-%d'), 25.54, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1003, '0911004372', '01485454321',STR_TO_DATE(' 2016-04-15', '%Y-%m-%d'), 15.45, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1004, '0945742830', '01485454321',STR_TO_DATE(' 2019-05-16', '%Y-%m-%d'), 25.25, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1005, '0911004372', '01485454321',STR_TO_DATE(' 2019-08-16', '%Y-%m-%d'), 5.65, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1006, '1498736112', '01485454321',STR_TO_DATE(' 2016-07-14', '%Y-%m-%d'), 6.20, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1007, '1353687923', '01485454321',STR_TO_DATE(' 2020-05-03', '%Y-%m-%d'), 89.65, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '01485454321',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '01485454321',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12    );
 INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(1, 1001,2);
 INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(2, 1002,3 );
 INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(3, 1003,2);
@@ -422,7 +421,7 @@ create view reporte_ingreso as
 	on (i.id_ingreso = r.id_registro and b.id_admin_bodega = i.id_admin_bodega 
 	and i.id_ingreso = ibd.id_ingreso and um.numero_serie = ibd.numero_serie
 	and um.id_medicamento = m.id_medicamento and p.cedula = b.id_admin_bodega)
-	group by m.id_medicamento
+	group by p.cedula, r.fecha_solicitud, m.id_medicamento
 	order by r.fecha_solicitud;
 
 -- select * from reporte_ingreso;
@@ -442,7 +441,7 @@ create view reporte_egreso as
 	and ebu.id_egreso = e.id_egreso
 	and r.id_bodeguero = bo.id_bodeguero
 	and bo.id_bodega = b.id_bodega)
-	group by e.id_egreso
+	group by p.cedula, e.fecha_egreso, f.id_farmacia
 	order by e.fecha_egreso;
 
 -- select * from reporte_egreso;
@@ -458,7 +457,7 @@ CREATE VIEW frecuencia_compras as
 	and f.id_factura = vum.id_factura
 	and vum.unidad_medicamento = cm.id_medicamento
 	and cm.id_categoria = cat.id_categoria)
-	group by cat.id_categoria
+	group by cat.id_categoria, c.id_cliente
 	order by cat.nombre asc;
     
 -- select * from frecuencia_compras;
@@ -468,7 +467,7 @@ CREATE VIEW frecuencia_compras as
 
 DROP PROCEDURE IF EXISTS RegistrarIngreso;
 DELIMITER ||
-CREATE PROCEDURE RegistrarIngreso (
+CREATE PROCEDURE registrar_ingreso (
 	in solicitante varchar(12) , in bodeguero varchar(12), in justif varchar(100), 
     in medicina int, in nSerie int , in caducidad date, in cantidad int 
     )
@@ -486,6 +485,7 @@ BEGIN
 END ||
 DELIMITER ;
 
+
 DROP PROCEDURE IF EXISTS RegistrarEgreso;
 DELIMITER ||
 CREATE PROCEDURE RegistrarEgreso 
@@ -495,7 +495,7 @@ BEGIN
     BEGIN
 		ROLLBACK;
 	END;
-    
+
 	START TRANSACTION;
 		SET @solicitante = (SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia);
 		INSERT INTO Registro(id_bodeguero, fecha_solicitud, justificativo) VALUES(bodeguero, date(now()), justificativo);
@@ -514,4 +514,6 @@ BEGIN
 			COMMIT;
 		END IF;
 END ||
-DELIMITER ;
+DELIMITER ; 
+
+
