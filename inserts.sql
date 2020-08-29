@@ -1,6 +1,7 @@
 /*
 Cambios Realizados en el modelo:
 - Se añadieron columnas de nombre para farmacia y cliente
+- Se añadió la columna cantidad en la tabla Stock_Bodega (antes llamada Bodega_unidad_medicamento)
 */
 
 DROP DATABASE IF EXISTS g1;
@@ -467,7 +468,7 @@ CREATE VIEW frecuencia_compras as
 
 DROP PROCEDURE IF EXISTS RegistrarIngreso;
 DELIMITER ||
-CREATE PROCEDURE registrar_ingreso (
+CREATE PROCEDURE RegistrarIngreso (
 	in solicitante varchar(12) , in bodeguero varchar(12), in justif varchar(100), 
     in medicina int, in nSerie int , in caducidad date, in cantidad int 
     )
@@ -482,5 +483,35 @@ BEGIN
         INSERT INTO Ingreso_Bodega_Unidad(id_ingreso, numero_serie, cantidad) 
 			VALUES ((select max(id_ingreso) FROM Ingreso), nSerie, cantidad);
 	COMMIT;
+END ||
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS RegistrarEgreso;
+DELIMITER ||
+CREATE PROCEDURE RegistrarEgreso 
+	(in bodeguero varchar(12), in justificativo varchar(1000), in farmacia int, in n_serie int, in cantidad int)
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+		ROLLBACK;
+	END;
+    
+	START TRANSACTION;
+		SET @solicitante = (SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia);
+		INSERT INTO Registro(id_bodeguero, fecha_solicitud, justificativo) VALUES(bodeguero, date(now()), justificativo);
+        SET @idRegistro = (SELECT max(id_registro) FROM Registro);
+        INSERT INTO Egreso VALUES(@idRegistro, farmacia, @solicitante, date(now()));
+        INSERT INTO EgresoBodegaUnidad VALUES(@idRegistro, n_serie, cantidad);
+        UPDATE Stock_Farmacia_Medicamento SET stock_actual = (stock_actual + cantidad) 
+        WHERE id_farmacia = farmacia AND id_medicamento = n_serie;
+        SET @bodega = (SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = bodeguero);
+        UPDATE Stock_Bodega SET stock_actual = (stock_actual - cantidad) 
+        WHERE id_bodega = @bodega AND numero_serie = n_serie;
+        SET @stockBodega = (SELECT stock_actual FROM Stock_Bodega WHERE id_bodega = @bodega AND numero_serie = n_serie);
+		IF @stockBodega < 0 THEN
+			ROLLBACK;
+		ELSE
+			COMMIT;
+		END IF;
 END ||
 DELIMITER ;
