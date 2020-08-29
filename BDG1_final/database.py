@@ -73,7 +73,7 @@ class DataBase:
 
     def ingreso(self, data):
         sql = f"""
-        CALL registrar_ingreso (
+        CALL registrarIngreso (
         '{data['solicitante']}', '{data['bodeguero']}',
         '{data['justificativo']}', {data['medicamento']},
         {data['n_serie']}, {data['fecha_cad']}, 
