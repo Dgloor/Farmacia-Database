@@ -129,7 +129,7 @@ CREATE TABLE if not exists Stock_Farmacia_Medicamento
 
 CREATE TABLE if not exists Bodega
 (
-	id_bodega INT PRIMARY KEY, 
+	id_bodega INT PRIMARY KEY AUTO_INCREMENT, 
     id_admin_bodega VARCHAR(12),
     direccion VARCHAR(50),
     FOREIGN KEY(id_admin_bodega) references Persona(cedula)
