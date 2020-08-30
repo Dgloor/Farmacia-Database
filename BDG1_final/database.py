@@ -38,8 +38,8 @@ class DataBase:
                 )
             order by m.nombre asc;
             """
-            self.cursor.execute(sql)
-            u_meds = self.cursor.fetchall()
+        self.cursor.execute(sql)
+        u_meds = self.cursor.fetchall()
         return u_meds
 
     def get_farmacias(self):
@@ -115,10 +115,9 @@ class DataBase:
         {data['cantidad']} ,  @exitoso
         );
         """
-        #data['exitoso'] = None
-        print(data.values())
-        self.cursor.callproc('RegistrarEgreso', data)
-        exitoso = self.cursor.fetchone()
-        print(exitoso)
+        self.cursor.execute(sql)
+        self.cursor.execute("select @exitoso;")
+        #print(self.cursor.stored_results())
+        exitoso = self.cursor.fetchone()[0]
 
         # print("</> Unidades enviadas a farmacia con éxito </>")
