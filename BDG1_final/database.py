@@ -98,16 +98,16 @@ class DataBase:
             INSERT INTO Stock_Bodega(numero_serie, id_bodega, stock_actual)
             VALUES((select numero_serie FROM Unidad_Medicamento where numero_serie =  {n_serie}), @bodega, {cantidad});
             """
-        # print(sql)
+        print(sql)
 
-        try:
-            self.cursor.execute(sql)
-            self.connection.commit()
-            print("</> Unidades ingresadas con éxito </>")
-
-        except Exception:
-            self.connection.rollback()
-            print("<x> Transacción fallida <x>")
+        # try:
+        #     self.cursor.execute(sql)
+        #     self.connection.commit()
+        #     print("</> Unidades ingresadas con éxito </>")
+        #
+        # except Exception:
+        #     self.connection.rollback()
+        #     print("<x> Transacción fallida <x>")
 
     def egreso(self, data):
         sql = f"""
