@@ -33,12 +33,15 @@ class Sistema:
         bodeguero = self.select_emp('Bodegueros')
         justificativo = input("\nJustificativo: ")
         medicamentos = self.select_meds()
+
         if medicamentos != {}:
             data = {'solicitante': solicitante, 'bodeguero': bodeguero,
                     'justificativo': justificativo, 'medicamentos': medicamentos}
 
             print("\nProcesando transacción...")
             self.db.ingreso(data)
+        else:
+            print("\nRegresando al menú principal...")
 
     def egreso(self):
         print("\n-- Egreso Bodega -- ")
@@ -112,7 +115,7 @@ class Sistema:
             pos = input("Farmacia destino (n): ")
             if pos.isdigit():
                 pos = int(pos)
-                if 0 < pos < len(farmacias):
+                if 0 < pos < len(farmacias) + 1:
                     valido = True
                 else:
                     print("\n<x> Fuera de rango, intente de nuevo. <x>")

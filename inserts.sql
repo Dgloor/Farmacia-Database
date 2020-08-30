@@ -1,7 +1,13 @@
 /*
 Cambios Realizados en el modelo:
-- Se añadieron columnas de nombre para farmacia y cliente
+- Se añadió una columna de 'nombre' para farmacia y cliente
 - Se añadió una columna 'stock_actual' a la tabla stock_bodega * antes llamada bodega_uniadad_medicamento
+	Simplifica la consulta para saber cuantos medicamentos con numero de serie específico se tienen en una bodega
+	caso contrario el query tendría que realizarse tomando una diferencia entre ingreso - egreso (
+    pros: más eficiente, menor cantidad de joins
+    contras: Mayor mantenimiento al momento de sacar e ingresar medicamentos
+- Se agregó una columa 'cantidad' dentro de la tabla venta_unidad_medicamento
+	Era necesario llevar registros de cuantos medicamentos con id específico se habían vendido
 */
 
 DROP DATABASE IF EXISTS g1;
@@ -216,7 +222,7 @@ INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion)
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('1353687923', 'Eduardo', 'Morán', 'Guananga', 'Durán');
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('1498736112', 'Ángel', 'Letamendi', 'Guale', 'Yaguachi');
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('0945742831', 'Josefina', 'Gómez', 'García', 'Guayaquil');
-INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('0953496431' ,   'Jorge','Ramirez','Gonzales','Guayaquil');
+INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('0953496431' ,  'Jorge','Ramirez','Gonzales','Guayaquil');
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('0951839223' , 'Mario' ,  'Carvajal','Challen' , 'Guayaquil');
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('0954368659' , 'Jorge' , 'Punguil','Vulgarin' , 'Guayaquil');
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('0173456789' , 'Alfredo' ,'Castillo','Pacheco', 'Milagro');
@@ -231,6 +237,7 @@ INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion)
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('1313687923', 'Eduarda', 'Morán', 'Guananga', 'Durán');
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('1418736112', 'Ángela', 'Letamendi', 'Guale', 'Yaguachi');
 INSERT INTO Persona  (cedula,nombre,apellido_paterno,apellido_materno,direccion) VALUES('0941742830', 'Josefino', 'Filipa', 'García', 'Guayaquil');
+
 INSERT INTO Persona_Telefonos  (id_persona,numero) VALUES('0953496437'  , '042985426');
 INSERT INTO Persona_Telefonos  (id_persona,numero) VALUES('0951839273'  , '0953496437');
 INSERT INTO Persona_Telefonos  (id_persona,numero) VALUES('0954364659', '042562559');
@@ -292,6 +299,7 @@ INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0943714134', 'angeleta2
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('1313687923', 'angeletaguale@gmail.com');
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('1418736112', 'josomezgarcia@hotmail.com');
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0941742830' , 'mahaidrovo2000@hotmail.com');
+
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('00000000000', 'Jose Lita');
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('00000000002', 'Misael Bohorquez');
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('02468101214', 'Catalina Camacho');
@@ -301,28 +309,29 @@ INSERT INTO Cliente  (id_cliente, nombre) VALUES('24681012142', 'Paula Barahona'
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('01246810122', 'Aaron Soria');
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('02164810123', 'Genesis Pluas');
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('01485454321', 'Jose Lita');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('09854653414', 'Misael Bohorquez');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('09854653414', 'José Zambrano');
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('12310985321', 'Catalina Camacho');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('12095465321', 'Ruben Clemente');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('12468246824', 'Paula Umpierrez');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('25689478266', 'Paula Barahona');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('02468126786', 'Aaron Soria');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('02466966666', 'Joseph Lita');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('66655546262', 'Misaela Bohorquez');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246679952', 'Catalino Camacho');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246668795', 'Rubena Clemente');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246667991', 'Paulo Umpierrez');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22233366999', 'Paulito Barahona');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246679798', 'Aaron Soriosis');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22224669887', 'Genesis Pluasis');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22226664489', 'Jose Litio');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22224666889', 'Misael Bohorques');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22255654489', 'Catalina Camachon');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('55546952468', 'Ruben Clarinete');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('35465432152', 'Paula Umpierres');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('21652865421', 'Paula Barada');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('32165469898', 'Aaron Soriano');
-INSERT INTO Cliente  (id_cliente, nombre) VALUES('22455556888', 'Genesis Pluasis');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('12095465321', 'Doroty Romero');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('12468246824', 'Sofía Caiche');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('25689478266', 'Erika Velez');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('02468126786', 'Lucas Fernandez');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('02466966666', 'Diefo Feijo');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('66655546262', 'Ronald Castro');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246679952', 'Karina Nunez');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246668795', 'Manuel Loor');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246667991', 'Edu Buenaventura');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22233366999', 'Joseph Flores');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22246679798', 'Aaron Paul');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22224669887', 'Amber Heard');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22226664489', 'Jonnhy Deep');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22224666889', 'Barry Alen');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22255654489', 'Robert Patinson');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('55546952468', 'Dario Robert');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('35465432152', 'Carla Robles');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('21652865421', 'Robin Diaz');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('32165469898', 'Mery Soriano');
+INSERT INTO Cliente  (id_cliente, nombre) VALUES('22455556888', 'Samantha Robalino');
+
 INSERT INTO Categoria  (nombre,descripcion) VALUES('antibiótico','combatir infecciones' );
 INSERT INTO Categoria  (nombre,descripcion) VALUES('analgésico','para el dolor muscular');
 INSERT INTO Categoria  (nombre,descripcion) VALUES('deportivo','uso especifico para deportistas activos');
@@ -335,6 +344,7 @@ INSERT INTO Categoria  (nombre,descripcion) VALUES('dermico','para problemas rel
 INSERT INTO Categoria  (nombre,descripcion) VALUES('embarazo','medicamentos dedicados al perido deembarazo');
 INSERT INTO Categoria  (nombre,descripcion) VALUES('cronico','medicamentos para pacientes con enfeemedades cronicas');
 INSERT INTO Categoria  (nombre,descripcion) VALUES('uso general','medicamentos que no requieres prescripcion');
+
 INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('paracentamol', 0.10);
 INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('ibuprofeno', 0.15);
 INSERT INTO Medicamento  (nombre,precio_unitario) VALUES('gatorade', 1.00);
@@ -403,11 +413,13 @@ INSERT INTO Empleado_Farmacia  (id_empleado,id_farmacia,sueldo) VALUES('09437613
 INSERT INTO Empleado_Farmacia  (id_empleado,id_farmacia,sueldo) VALUES('1353687923', 3, 500);
 INSERT INTO Empleado_Farmacia  (id_empleado,id_farmacia,sueldo) VALUES('1498736112', 4, 500);
 INSERT INTO Empleado_Farmacia  (id_empleado,id_farmacia,sueldo) VALUES('0954391867', 5, 600);
+
 INSERT INTO Localidad  (id_farmacia,calle_principal,calle_secundaria,canton,provincia,referencia) VALUES(1, 'Av. Guano', 'Penipe', 'Guayaquil', 'Guayas', 'Parque Acuático Juan Montalvo');
 INSERT INTO Localidad  (id_farmacia,calle_principal,calle_secundaria,canton,provincia,referencia) VALUES(2, 'Av. Amazonas', 'Av. Samuel Cisneros', 'Durán', 'Guayas', 'SuperAKI Primavera I');
 INSERT INTO Localidad  (id_farmacia,calle_principal,calle_secundaria,canton,provincia,referencia) VALUES(3, 'Manuel Galecio', 'Boyacá', 'Guayaquil', 'Guayas', 'Estación Metrovía Luis Vernaza');
 INSERT INTO Localidad  (id_farmacia,calle_principal,calle_secundaria,canton,provincia,referencia) VALUES(4, 'Av. Las Monjas', 'Calle Primera', 'Guayaquil', 'Guayas', 'Florería Bouquete');
 INSERT INTO Localidad  (id_farmacia,calle_principal,calle_secundaria,canton,provincia,referencia) VALUES(5, 'Av. 25 de Julio', 'Chambers', 'Guayaquil', 'Guayas', 'Estación Metrovía Sagrada Familia - Oeste"');
+
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(1,  571821,STR_TO_DATE(' 2020-12-14', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(2,  589426,STR_TO_DATE(' 2021-05-28', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(3,  548390,STR_TO_DATE(' 2020-10-11', '%Y-%m-%d'));
@@ -447,6 +459,7 @@ INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VA
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(17, 451658,STR_TO_DATE(' 2021-11-12', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(18, 466452,STR_TO_DATE(' 2020-07-25', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(19, 585482,STR_TO_DATE(' 2020-12-14', '%Y-%m-%d'));
+
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 1, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 2, 90, 90);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 3, 100, 280);
@@ -557,6 +570,7 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 20, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 21, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 22, 100, 320);
+
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1001, '0911004372', '01485454321',STR_TO_DATE(' 2020-05-15', '%Y-%m-%d'), 20.00, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1002, '1498736112', '35465432152',STR_TO_DATE(' 2015-04-15', '%Y-%m-%d'), 25.54, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1003, '0911004372', '25689478266',STR_TO_DATE(' 2016-04-15', '%Y-%m-%d'), 15.45, 12);
@@ -564,44 +578,58 @@ INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1005, '0911004372', '35465432152',STR_TO_DATE(' 2019-08-16', '%Y-%m-%d'), 5.65, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1006, '1498736112', '22224666889',STR_TO_DATE(' 2016-07-14', '%Y-%m-%d'), 6.20, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1007, '1353687923', '01485454321',STR_TO_DATE(' 2020-05-03', '%Y-%m-%d'), 89.65, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '32165469898',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '55546952468',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12    );
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '35465432152',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '01485454321',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1010, '1353687923', '01485454321',STR_TO_DATE(' 2019-09-09', '%Y-%m-%d'), 40.10, 12);
+
 INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1001, 2, 10);
 INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1002, 3, 20);
 INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1003, 2, 30);
 INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1004, 3, 40);
-INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1005, 1, 50);
-INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1006, 1, 60);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1005, 5, 50);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1006, 4, 60);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1007, 3, 60);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1008, 2, 60);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1009, 2, 60);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1010, 1, 80);
+
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0641631432', 'Alarcon y calle 35');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0911004372', '36 y portete');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0943761342', 'Garcia Gollena y Pedro Pablo Gomez');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('1498736112', 'Rumichaca y Manuel Galecio');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0954391867', '26 y Maldonado');
+
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual) VALUES( 571821, 1,875);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 589426, 2,544);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 548390, 3,1143);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 561420, 3,933);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 452718, 4,854);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 464520, 5,1147);
+
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "0123456789", 1);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "1234568987", 2);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2345678910", 3);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2356974001", 4);
 INSERT INTO Bodeguero (id_bodeguero,id_bodega) VALUES( "2597651685", 5);
+
 INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("0123456789",STR_TO_DATE(' 2001-04-15 ', '%Y-%m-%d'), "Salida de medicamentos para la farmacia 1");
 INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("1234568987",STR_TO_DATE(' 2002-05-15 ', '%Y-%m-%d'), "Ingreso de medicamentos de la marca fibeca");
 INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("2345678910",STR_TO_DATE(' 2008-05-22 ', '%Y-%m-%d'), "Salida de mediacmentos para la farmacia 3");
 INSERT INTO Registro  (id_bodeguero,fecha_solicitud,justificativo) VALUES("2597651685",STR_TO_DATE(' 2001-05-15 ', '%Y-%m-%d'), "Ingreso de medicamento del proveedor farmacis");
+
 INSERT INTO Ingreso  (id_ingreso,id_admin_bodega) VALUES( 2, '0641631432');
 INSERT INTO Ingreso  (id_ingreso,id_admin_bodega) VALUES( 4, '0911004372');
+
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 571821 , 1000);
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 589426 , 1548);
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    2 , 548390 , 1266);
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 561420 , 1254);
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 452718 , 1365);
 INSERT INTO Ingreso_Bodega_Unidad (id_ingreso,numero_serie,cantidad) VALUES(    4 , 464520 , 1236);
+
 INSERT INTO Egreso  (id_egreso,farmacia_destino,solicitante,fecha_egreso) VALUES(    1 , 1 , "0123456789",STR_TO_DATE('2001-04-15', '%Y-%m-%d'));
-INSERT INTO Egreso  (id_egreso,farmacia_destino,solicitante,fecha_egreso) VALUES(    3 , 2 , "0954391867",STR_TO_DATE('2002-05-15', '%Y-%m-%d'));
+INSERT INTO Egreso  (id_egreso,farmacia_destino,solicitante,fecha_egreso) VALUES(    3 , 2 , "0953496437",STR_TO_DATE('2002-05-15', '%Y-%m-%d'));
+
 INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 571821 , 125);
 INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 589426 , 125);
 INSERT INTO Egreso_Bodega_Unidad (id_egreso,numero_serie,cantidad) VALUES(    1 , 548390 , 123);
@@ -638,7 +666,8 @@ create view reporte_egreso as
 	from egreso e
 	inner join (registro r, persona p, farmacia f, localidad l,
 	egreso_bodega_unidad ebu, bodega b, bodeguero bo)
-	on (e.id_egreso = r.id_registro and e.solicitante = p.cedula
+	on (e.id_egreso = r.id_registro 
+    and e.solicitante = p.cedula
 	and f.id_farmacia = e.farmacia_destino
 	and f.id_farmacia = l.id_farmacia
 	and ebu.id_egreso = e.id_egreso
@@ -667,27 +696,6 @@ CREATE VIEW frecuencia_compras as
 
 
 -------------------------------------------------------- PROCEDURES
-
-DROP PROCEDURE IF EXISTS RegistrarIngreso;
-DELIMITER ||
-CREATE PROCEDURE RegistrarIngreso (
-	in solicitante varchar(12) , in bodeguero varchar(12), in justif varchar(100), 
-    in medicina int, in nSerie int , in caducidad date, in cantidad int 
-    )
-BEGIN
-	START TRANSACTION;
-		INSERT INTO Registro(id_bodeguero, fecha_solicitud, justificativo) 
-			VALUES (bodeguero, date(now()), justif);
-        INSERT INTO Ingreso(id_ingreso, id_admin_bodega) 
-			VALUES ((select max(id_registro) FROM Registro), solicitante);
-        INSERT INTO Unidad_Medicamento(id_medicamento, numero_serie, fecha_caducidad) 
-			VALUES (medicina, nSerie, caducidad);
-        INSERT INTO Ingreso_Bodega_Unidad(id_ingreso, numero_serie, cantidad) 
-			VALUES ((select max(id_ingreso) FROM Ingreso), nSerie, cantidad);
-	COMMIT;
-END ||
-DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS RegistrarEgreso;
 DELIMITER ||
@@ -735,10 +743,10 @@ BEGIN
 END ||
 DELIMITER ; 
 
-
 -------------------------------------------------------- TRIGGER
 
 drop trigger if exists reducir_stock
+
 DELIMITER $$
 CREATE TRIGGER reducir_stock
     BEFORE INSERT ON venta_unidad_medicamento FOR EACH ROW
@@ -753,5 +761,7 @@ BEGIN
 END $$ 
 DELIMITER ;
 
+-- ALTER TABLE categoria DROP INDEX IF EXISTS idx_categoria;
+CREATE INDEX idx_categoria on categoria(nombre)
 
-
+-- select * from frecuencia_compras;

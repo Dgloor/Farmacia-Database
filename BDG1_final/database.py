@@ -3,6 +3,7 @@ import datetime
 
 
 class DataBase:
+
     def __init__(self, host, user, password, db_name):
         try:
             self.connection = pymysql.connect(host=host,
@@ -71,7 +72,7 @@ class DataBase:
         empleados = self.cursor.fetchall()
         return empleados
 
-    def ingreso(self, data):
+    def ingreso(self, data): #complex
         try:
             now = datetime.date.today()
             self.connection.begin()
@@ -134,4 +135,4 @@ class DataBase:
         if exitoso:
             print("</> Unidades enviadas a farmacia con éxito </>")
         else:
-            print("<X> Egreso no completado, intente nuevamente. <X>")
+            print("<X> Stock insuficiente, intente nuevamente. <X>")
