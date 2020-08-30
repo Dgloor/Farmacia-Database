@@ -72,15 +72,7 @@ CREATE TABLE if not exists Unidad_Medicamento
     fecha_caducidad Date NOT NULL,
     FOREIGN KEY(id_medicamento) references Medicamento(id_medicamento)
 );
-CREATE TABLE if not exists Farmacia_Unidad_Medicamento
-(
-	id_farmacia INT,
-    numero_serie INT,
-    cantidad INT,
-    PRIMARY KEY(id_farmacia, numero_serie),
-    FOREIGN KEY(id_farmacia) references Farmacia(id_farmacia),
-    FOREIGN KEY(numero_serie) references Unidad_Medicamento(numero_serie)
-);
+
 CREATE TABLE if not exists Categoria
 (
 	id_categoria INT PRIMARY KEY AUTO_INCREMENT, 
@@ -117,11 +109,11 @@ CREATE TABLE if not exists Factura
 
 CREATE TABLE if not exists Venta_Unidad_Medicamento
 (
-	id_venta_medicamento INT PRIMARY KEY,
     id_factura INT NOT NULL,
-    unidad_medicamento INT NOT NULL,
+    id_medicamento INT NOT NULL,
+    cantidad INT NOT NULL,
     FOREIGN KEY(id_factura) references Factura(id_factura),
-    FOREIGN KEY(unidad_medicamento) references Unidad_Medicamento(id_medicamento)
+    FOREIGN KEY(id_medicamento) references Unidad_Medicamento(id_medicamento)
     );
 
 CREATE TABLE if not exists Stock_Farmacia_Medicamento
@@ -270,10 +262,6 @@ INSERT INTO Persona_Telefonos  (id_persona,numero) VALUES('1313687923', '0984726
 INSERT INTO Persona_Telefonos  (id_persona,numero) VALUES('1418736112', '042573971');
 INSERT INTO Persona_Telefonos  (id_persona,numero) VALUES('0941742830', '0917821723');
 
-
-
-
-
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0953496437'  , 'danny_loor00@hotmail.com');
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0951839273'  , 'dannyloor00@gmail.com'   );
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0954364659'  , 'dgloor@edu.ec' );
@@ -304,8 +292,6 @@ INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0943714134', 'angeleta2
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('1313687923', 'angeletaguale@gmail.com');
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('1418736112', 'josomezgarcia@hotmail.com');
 INSERT INTO Persona_Correos  (id_persona,correo) VALUES('0941742830' , 'mahaidrovo2000@hotmail.com');
-
-
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('00000000000', 'Jose Lita');
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('00000000002', 'Misael Bohorquez');
 INSERT INTO Cliente  (id_cliente, nombre) VALUES('02468101214', 'Catalina Camacho');
@@ -461,119 +447,6 @@ INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VA
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(17, 451658,STR_TO_DATE(' 2021-11-12', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(18, 466452,STR_TO_DATE(' 2020-07-25', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(19, 585482,STR_TO_DATE(' 2020-12-14', '%Y-%m-%d'));
-/*
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,571821,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,589426,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,548390,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,561420,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,452718,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,464520,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,581821,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,579426,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,528390,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,512320,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,455158,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,415520,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,572521,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,949876,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,156485,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,564560,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,457158,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,461545,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,466452,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,585482,20);
-
-
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,571821,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,589426,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,548390,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,561420,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,452718,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,464520,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,581821,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,579426,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,528390,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,512320,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,455158,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,415520,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,572521,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,949876,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,156485,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,564560,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,457158,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,461545,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,466452,20);
-INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (2,585482,20);
-
-
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,571821,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,589426,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,548390,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,561420,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,452718,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,464520,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,581821,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,579426,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,528390,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,512320,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,455158,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,415520,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,572521,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,949876,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,156485,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,564560,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,457158,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,461545,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,466452,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (3,585482,20);
-
-
-
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,571821,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,589426,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,548390,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,561420,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,452718,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,464520,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,581821,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,579426,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,528390,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,512320,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,455158,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,415520,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,572521,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,949876,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,156485,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,564560,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,457158,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,461545,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,466452,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (4,585482,20);
-
-
-
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,571821,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,589426,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,548390,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,561420,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,452718,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,464520,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,581821,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,579426,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,528390,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,512320,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,455158,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,415520,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,572521,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,949876,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,156485,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,564560,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,457158,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,461545,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,466452,20);
-insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,585482,20);
-
-*/
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 1, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 2, 90, 90);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 3, 100, 280);
@@ -596,8 +469,6 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 20, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 21, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 22, 100, 320);
-
-
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 1, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 2, 90, 90);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 3, 100, 280);
@@ -620,9 +491,6 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 20, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 21, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 22, 100, 320);
-
-
-
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 1, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 2, 90, 90);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 3, 100, 280);
@@ -645,9 +513,6 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 20, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 21, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 22, 100, 320);
-
-
-
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 1, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 2, 90, 90);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 3, 100, 280);
@@ -670,9 +535,6 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 20, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 21, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 22, 100, 320);
-
-
-
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 1, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 2, 90, 90);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 3, 100, 280);
@@ -695,14 +557,6 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 20, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 21, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 22, 100, 320);
-
-
-
-
-
-
-
-
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1001, '0911004372', '01485454321',STR_TO_DATE(' 2020-05-15', '%Y-%m-%d'), 20.00, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1002, '1498736112', '01485454321',STR_TO_DATE(' 2015-04-15', '%Y-%m-%d'), 25.54, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1003, '0911004372', '01485454321',STR_TO_DATE(' 2016-04-15', '%Y-%m-%d'), 15.45, 12);
@@ -712,12 +566,12 @@ INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1007, '1353687923', '01485454321',STR_TO_DATE(' 2020-05-03', '%Y-%m-%d'), 89.65, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '01485454321',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '01485454321',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12    );
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(1, 1001,2);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(2, 1002,3 );
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(3, 1003,2);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(4, 1004,3);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(5, 1005,1);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(6, 1006,1);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1001, 2, 10);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1002, 3, 20);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1003, 2, 30);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1004, 3, 40);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1005, 1, 50);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1006, 1, 60);
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0641631432', 'Alarcon y calle 35');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0911004372', '36 y portete');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0943761342', 'Garcia Gollena y Pedro Pablo Gomez');
@@ -795,19 +649,19 @@ create view reporte_egreso as
 
 -- select * from reporte_egreso;
 
-CREATE VIEW frecuencia_compras as 
-	select cat.nombre as nombre_categoria,
-	c.nombre as nombre_cliente,
-	count(cat.id_categoria) as frecuencia_compra,
-	sum(f.total) as total_compras
-	from factura f 
-	inner join (cliente c, venta_unidad_medicamento vum , categoria_medicamento cm, categoria cat)
-	on (c.id_cliente = f.id_cliente
-	and f.id_factura = vum.id_factura
-	and vum.unidad_medicamento = cm.id_medicamento
-	and cm.id_categoria = cat.id_categoria)
-	group by cat.id_categoria, c.id_cliente
-	order by cat.nombre asc;
+-- CREATE VIEW frecuencia_compras as 
+-- 	select cat.nombre as nombre_categoria,
+-- 	c.nombre as nombre_cliente,
+-- 	count(cat.id_categoria) as frecuencia_compra,
+-- 	sum(f.total) as total_compras
+-- 	from factura f 
+-- 	inner join (cliente c, venta_unidad_medicamento vum , categoria_medicamento cm, categoria cat)
+-- 	on (c.id_cliente = f.id_cliente
+-- 	and f.id_factura = vum.id_factura
+-- 	and vum.unidad_medicamento = cm.id_medicamento
+-- 	and cm.id_categoria = cat.id_categoria)
+-- 	group by cat.id_categoria, c.id_cliente
+-- 	order by cat.nombre asc;
     
 -- select * from frecuencia_compras;
 
@@ -847,25 +701,30 @@ BEGIN
 	END;
 
 	START TRANSACTION;
-    
-    
-        SET @solicitante = (SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia);
-        -- SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia;
+		SET @solicitante = (SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia);
 		INSERT INTO Registro(id_bodeguero, fecha_solicitud, justificativo) VALUES(bodeguero, date(now()), justificativo);
         
         SET @idRegistro = (SELECT max(id_registro) FROM Registro);
         INSERT INTO Egreso VALUES(@idRegistro, farmacia, @solicitante, date(now()));
         INSERT INTO Egreso_bodega_unidad VALUES(@idRegistro, n_serie, cantidad);
         
-        UPDATE Stock_Farmacia_Medicamento SET stock_actual = (stock_actual + cantidad) 
-			WHERE id_farmacia = farmacia AND id_medicamento = n_serie;
-            
-        SET @bodega = (SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = bodeguero) ;
-        -- SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = bodeguero;
+        SET @id_med = (SELECT m.id_medicamento FROM medicamento m inner join unidad_medicamento um 
+				ON m.id_medicamento = um.id_medicamento WHERE um.numero_serie = 571821);
+        
+        IF NOT EXISTS (SELECT 1 FROM Stock_Farmacia_Medicamento WHERE id_medicamento = @id_med) THEN
+			INSERT INTO Stock_Farmacia_Medicamento(id_farmacia, id_medicamento, stock_minimo, stock_actual)
+            VALUES (farmacia, @id_med, cantidad, cantidad);
+		ELSE 
+			UPDATE Stock_Farmacia_Medicamento SET stock_actual = (stock_actual + cantidad) 
+			WHERE id_farmacia = farmacia AND id_medicamento = @id_med;
+		END IF;
+  
+        SET @bodega = (SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = bodeguero);
+        
         UPDATE Stock_Bodega SET stock_actual = (stock_actual - cantidad) 
 			WHERE id_bodega = @bodega AND numero_serie = n_serie;
         SET @stockBodega = (SELECT stock_actual FROM Stock_Bodega WHERE id_bodega = @bodega AND numero_serie = n_serie);
-        -- SELECT stock_actual FROM Stock_Bodega WHERE id_bodega = @bodega AND numero_serie = n_serie;
+        
 		IF @stockBodega < 0 THEN
 			set exitoso = false;
 			ROLLBACK;        
@@ -875,4 +734,24 @@ BEGIN
 		END IF;
 END ||
 DELIMITER ; 
-call registraregreso('0123456789','jorge ',1,571821,10,@exito);
+
+
+-------------------------------------------------------- TRIGGER
+
+drop trigger if exists reducir_stock
+DELIMITER $$
+CREATE TRIGGER reducir_stock
+    BEFORE INSERT ON venta_unidad_medicamento FOR EACH ROW
+BEGIN
+	SET @farmacia = (SELECT f.id_farmacia from farmacia f inner join (empleado_farmacia ef, factura fa)
+			ON (f.id_farmacia = ef.id_farmacia and ef.id_empleado = fa.id_empleado)
+            WHERE new.id_factura = fa.id_factura);
+            
+	UPDATE stock_farmacia_medicamento
+		SET stock_actual = (stock_actual - new.cantidad) 
+        WHERE id_medicamento = new.id_medicamento and id_farmacia = @farmacia;
+END $$ 
+DELIMITER ;
+
+
+
