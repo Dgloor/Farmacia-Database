@@ -766,7 +766,7 @@ BEGIN
 
 	START TRANSACTION;
     
-    /*
+    
         SET @solicitante = (SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia);
         -- SELECT id_jefe FROM Farmacia f WHERE f.id_farmacia = farmacia;
 		INSERT INTO Registro(id_bodeguero, fecha_solicitud, justificativo) VALUES(bodeguero, date(now()), justificativo);
@@ -790,7 +790,7 @@ BEGIN
 		ELSE
 			set exitoso = true;
 			COMMIT;
-		END IF;*/
+		END IF;
         set exitoso=true;
 END ||
 DELIMITER ; 
