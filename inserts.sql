@@ -461,7 +461,7 @@ INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VA
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(17, 451658,STR_TO_DATE(' 2021-11-12', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(18, 466452,STR_TO_DATE(' 2020-07-25', '%Y-%m-%d'));
 INSERT INTO Unidad_Medicamento  (id_medicamento,numero_serie,fecha_caducidad) VALUES(19, 585482,STR_TO_DATE(' 2020-12-14', '%Y-%m-%d'));
-
+/*
 INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,571821,20);
 INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,589426,20);
 INSERT INTO Farmacia_Unidad_Medicamento(id_farmacia,numero_serie,cantidad) VALUES (1,548390,20);
@@ -573,37 +573,136 @@ insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) value
 insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,466452,20);
 insert into farmacia_unidad_medicamento(id_farmacia,numero_serie,cantidad) values (5,585482,20);
 
-
+*/
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 1, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 2, 90, 90);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 3, 100, 280);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 4, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 5, 100, 250);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 6, 100, 320);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 1, 80, 80);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 2, 100, 100);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 3, 85, 85);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 4, 100, 782);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 5, 135, 135);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 6, 100, 764);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 1, 100, 100);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 2, 115, 115);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 3, 100, 326);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 4, 100, 352);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 5, 100, 100);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 6, 100, 771);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 1, 100, 723);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 2, 80, 80);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 3, 100, 573);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 4, 120, 120);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 5, 100, 734);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 6, 85, 85);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 1, 100, 302);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 2, 100, 100);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 3, 100, 394);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 4, 90, 90);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 5, 100, 386);
-INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 6, 100, 263);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 7, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 8, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 9, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 10, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 11, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 12, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 13, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 14, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 15, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 16, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 17, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 18, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 19, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 20, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 21, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(1, 22, 100, 320);
+
+
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 1, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 2, 90, 90);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 3, 100, 280);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 4, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 5, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 6, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 7, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 8, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 9, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 10, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 11, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 12, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 13, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 14, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 15, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 16, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 17, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 18, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 19, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 20, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 21, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(2, 22, 100, 320);
+
+
+
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 1, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 2, 90, 90);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 3, 100, 280);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 4, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 5, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 6, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 7, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 8, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 9, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 10, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 11, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 12, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 13, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 14, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 15, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 16, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 17, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 18, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 19, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 20, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 21, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(3, 22, 100, 320);
+
+
+
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 1, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 2, 90, 90);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 3, 100, 280);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 4, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 5, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 6, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 7, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 8, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 9, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 10, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 11, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 12, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 13, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 14, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 15, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 16, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 17, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 18, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 19, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 20, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 21, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(4, 22, 100, 320);
+
+
+
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 1, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 2, 90, 90);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 3, 100, 280);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 4, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 5, 100, 250);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 6, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 7, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 8, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 9, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 10, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 11, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 12, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 13, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 14, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 15, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 16, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 17, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 18, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 19, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 20, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 21, 100, 320);
+INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 22, 100, 320);
+
+
+
+
+
+
+
+
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1001, '0911004372', '01485454321',STR_TO_DATE(' 2020-05-15', '%Y-%m-%d'), 20.00, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1002, '1498736112', '01485454321',STR_TO_DATE(' 2015-04-15', '%Y-%m-%d'), 25.54, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1003, '0911004372', '01485454321',STR_TO_DATE(' 2016-04-15', '%Y-%m-%d'), 15.45, 12);
