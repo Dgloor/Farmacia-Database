@@ -109,11 +109,11 @@ CREATE TABLE if not exists Factura
 
 CREATE TABLE if not exists Venta_Unidad_Medicamento
 (
-	id_venta_medicamento INT PRIMARY KEY,
     id_factura INT NOT NULL,
-    unidad_medicamento INT NOT NULL,
+	numero_serie INT NOT NULL,
+    cantidad INT NOT NULL,
     FOREIGN KEY(id_factura) references Factura(id_factura),
-    FOREIGN KEY(unidad_medicamento) references Unidad_Medicamento(id_medicamento)
+    FOREIGN KEY(unidad_medicamento) references Unidad_Medicamento(numero_serie)
     );
 
 CREATE TABLE if not exists Stock_Farmacia_Medicamento
@@ -364,18 +364,18 @@ INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1007, '1353687923', '01485454321',STR_TO_DATE(' 2020-05-03', '%Y-%m-%d'), 89.65, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '01485454321',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '01485454321',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12    );
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(1, 1001,2);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(2, 1002,3 );
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(3, 1003,2);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(4, 1004,3);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(5, 1005,1);
-INSERT INTO Venta_Unidad_Medicamento  (id_venta_medicamento,id_factura,unidad_medicamento) VALUES(6, 1006,1);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura,numero_serie,cantidad) VALUES(1001,571821, 20);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura,numero_serie,cantidad) VALUES(1002,589426, 30);        
+INSERT INTO Venta_Unidad_Medicamento  (id_factura,numero_serie,cantidad) VALUES(1003,548390, 30);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura,numero_serie,cantidad) VALUES(1004,561420, 30);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura,numero_serie,cantidad) VALUES(1005,452718, 30);
+INSERT INTO Venta_Unidad_Medicamento  (id_factura,numero_serie,cantidad) VALUES(1006,464520, 30);
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0641631432', 'Alarcon y calle 35');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0911004372', '36 y portete');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0943761342', 'Garcia Gollena y Pedro Pablo Gomez');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('1498736112', 'Rumichaca y Manuel Galecio');
 INSERT INTO Bodega (id_admin_bodega,direccion) VALUES('0945742830', '26 y Maldonado');
-INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual) VALUES( 571821, 1,875);
+INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual) VALUES( 571821, 1,875);  
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 589426, 2,544);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 548390, 3,1143);
 INSERT INTO Stock_Bodega  (numero_serie,id_bodega,stock_actual ) VALUES( 561420, 3,933);
@@ -506,9 +506,17 @@ BEGIN
         INSERT INTO Egreso VALUES(@idRegistro, farmacia, @solicitante, date(now()));
         INSERT INTO Egreso_bodega_unidad VALUES(@idRegistro, n_serie, cantidad);
         
-        UPDATE Stock_Farmacia_Medicamento SET stock_actual = (stock_actual + cantidad) 
-			WHERE id_farmacia = farmacia AND id_medicamento = n_serie;
-            
+        SET @id_med = (SELECT m.id_medicamento FROM medicamento m inner join unidad_medicamento um 
+				ON m.id_medicamento = um.id_medicamento WHERE um.numero_serie = 571821);
+        
+        IF NOT EXISTS (SELECT 1 FROM Stock_Farmacia_Medicamento WHERE id_medicamento = @id_med) THEN
+			INSERT INTO Stock_Farmacia_Medicamento(id_farmacia, id_medicamento, stock_minimo, stock_actual)
+            VALUES (farmacia, @id_med, cantidad, cantidad);
+		ELSE 
+			UPDATE Stock_Farmacia_Medicamento SET stock_actual = (stock_actual + cantidad) 
+			WHERE id_farmacia = farmacia AND id_medicamento = @id_med;
+		END IF;
+  
         SET @bodega = (SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = bodeguero);
         
         UPDATE Stock_Bodega SET stock_actual = (stock_actual - cantidad) 
@@ -524,3 +532,6 @@ BEGIN
 		END IF;
 END ||
 DELIMITER ; 
+
+call RegistrarEgreso(0123456789, 'asdf', 1, 571821, 10, @exitoso);
+select @exitoso
