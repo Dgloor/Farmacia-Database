@@ -791,7 +791,6 @@ BEGIN
 			set exitoso = true;
 			COMMIT;
 		END IF;
-        set exitoso=true;
 END ||
 DELIMITER ; 
 call registraregreso('0123456789','jorge ',1,571821,10,@exito);
