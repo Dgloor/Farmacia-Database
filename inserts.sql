@@ -558,14 +558,14 @@ INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 21, 100, 320);
 INSERT INTO Stock_Farmacia_Medicamento  (id_farmacia,id_medicamento,stock_minimo,stock_actual) VALUES(5, 22, 100, 320);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1001, '0911004372', '01485454321',STR_TO_DATE(' 2020-05-15', '%Y-%m-%d'), 20.00, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1002, '1498736112', '01485454321',STR_TO_DATE(' 2015-04-15', '%Y-%m-%d'), 25.54, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1003, '0911004372', '01485454321',STR_TO_DATE(' 2016-04-15', '%Y-%m-%d'), 15.45, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1002, '1498736112', '35465432152',STR_TO_DATE(' 2015-04-15', '%Y-%m-%d'), 25.54, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1003, '0911004372', '25689478266',STR_TO_DATE(' 2016-04-15', '%Y-%m-%d'), 15.45, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1004, '0954391867', '01485454321',STR_TO_DATE(' 2019-05-16', '%Y-%m-%d'), 25.25, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1005, '0911004372', '01485454321',STR_TO_DATE(' 2019-08-16', '%Y-%m-%d'), 5.65, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1006, '1498736112', '01485454321',STR_TO_DATE(' 2016-07-14', '%Y-%m-%d'), 6.20, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1005, '0911004372', '35465432152',STR_TO_DATE(' 2019-08-16', '%Y-%m-%d'), 5.65, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1006, '1498736112', '22224666889',STR_TO_DATE(' 2016-07-14', '%Y-%m-%d'), 6.20, 12);
 INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1007, '1353687923', '01485454321',STR_TO_DATE(' 2020-05-03', '%Y-%m-%d'), 89.65, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '01485454321',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
-INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '01485454321',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12    );
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1008, '0943761342', '32165469898',STR_TO_DATE(' 2005-09-08', '%Y-%m-%d'), 25.20, 12);
+INSERT INTO Factura  (id_factura,id_empleado,id_cliente,fecha,total,iva) VALUES(1009, '1353687923', '55546952468',STR_TO_DATE(' 2019-09-08', '%Y-%m-%d'), 15.10, 12    );
 INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1001, 2, 10);
 INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1002, 3, 20);
 INSERT INTO Venta_Unidad_Medicamento  (id_factura, id_medicamento, cantidad) VALUES(1003, 2, 30);
@@ -649,19 +649,19 @@ create view reporte_egreso as
 
 -- select * from reporte_egreso;
 
--- CREATE VIEW frecuencia_compras as 
--- 	select cat.nombre as nombre_categoria,
--- 	c.nombre as nombre_cliente,
--- 	count(cat.id_categoria) as frecuencia_compra,
--- 	sum(f.total) as total_compras
--- 	from factura f 
--- 	inner join (cliente c, venta_unidad_medicamento vum , categoria_medicamento cm, categoria cat)
--- 	on (c.id_cliente = f.id_cliente
--- 	and f.id_factura = vum.id_factura
--- 	and vum.unidad_medicamento = cm.id_medicamento
--- 	and cm.id_categoria = cat.id_categoria)
--- 	group by cat.id_categoria, c.id_cliente
--- 	order by cat.nombre asc;
+CREATE VIEW frecuencia_compras as 
+	select cat.nombre as nombre_categoria,
+	c.nombre as nombre_cliente,
+	count(cat.id_categoria) as frecuencia_compra,
+	sum(f.total) as total_compras
+	from factura f 
+	inner join (cliente c, venta_unidad_medicamento vum , categoria_medicamento cm, categoria cat)
+	on (c.id_cliente = f.id_cliente
+	and f.id_factura = vum.id_factura
+	and vum.id_medicamento = cm.id_medicamento
+	and cm.id_categoria = cat.id_categoria)
+	group by cat.id_categoria, c.id_cliente
+	order by cat.nombre asc;
     
 -- select * from frecuencia_compras;
 

@@ -72,35 +72,46 @@ class DataBase:
         return empleados
 
     def ingreso(self, data):
-        print(data)
-        sql = f"""
-            INSERT INTO registro(id_bodeguero, fecha_solicitud, justificativo) 
-            VALUES('{data['bodeguero']}', date(now()), '{data['justificativo']}' );
-            
-            INSERT INTO ingreso(id_ingreso, id_admin_bodega)
-            VALUES((select max(id_registro) FROM registro), '{data['solicitante']}' );
-            
-            SET @bodega = (SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = '{data['bodeguero']}');
-        """
-
-        for id_med, info in data['medicamentos'].items():
-            n_serie, cantidad, fecha_cad = list(info.values())
-
-            sql += f"""
-               INSERT INTO Unidad_Medicamento(id_medicamento, numero_serie, fecha_caducidad)
-               VALUES({id_med}, {n_serie}, STR_TO_DATE('{fecha_cad}', '%Y-%m-%d'));
-
-               INSERT INTO Ingreso_Bodega_Unidad(id_ingreso, numero_serie, cantidad)
-               VALUES ((select max(id_ingreso) FROM Ingreso), {n_serie}, {cantidad});
-
-               INSERT INTO Stock_Bodega(numero_serie, id_bodega, stock_actual)
-               VALUES((select numero_serie FROM Unidad_Medicamento where numero_serie =  {n_serie}),
-                    @bodega, {cantidad});
-            """
-        print(sql)
-
         try:
+            now = datetime.date.today()
+            self.connection.begin()
+            sql = f"""
+                INSERT INTO registro(id_bodeguero, fecha_solicitud, justificativo)
+                VALUES('{data['bodeguero']}', STR_TO_DATE('{now}', '%Y-%m-%d'), '{data['justificativo']}');
+            """
             self.cursor.execute(sql)
+
+            self.cursor.execute("select max(id_registro) from registro")
+            id_registro = self.cursor.fetchone()[0]
+
+            sql = f"""
+                INSERT INTO ingreso(id_ingreso, id_admin_bodega)
+                VALUES({id_registro}, '{data['solicitante']}')
+             """
+            self.cursor.execute(sql)
+
+            self.cursor.execute(f"SELECT id_bodega FROM Bodeguero WHERE id_bodeguero = '{data['bodeguero']}'")
+            id_bodega = self.cursor.fetchone()[0]
+
+            for id_med, info in data['medicamentos'].items():
+                n_serie, cantidad, fecha_cad = list(info.values())
+
+                sql = f"""
+                   INSERT INTO Unidad_Medicamento(id_medicamento, numero_serie, fecha_caducidad)
+                   VALUES({id_med}, {n_serie}, STR_TO_DATE('{fecha_cad}', '%Y-%m-%d'));
+                """
+                self.cursor.execute(sql)
+                sql = f"""
+                   INSERT INTO ingreso_bodega_unidad(id_ingreso, numero_serie, cantidad)
+                   VALUES ({id_registro}, {n_serie}, {cantidad});
+                """
+                self.cursor.execute(sql)
+                sql = f"""
+                   INSERT INTO Stock_Bodega(numero_serie, id_bodega, stock_actual)
+                   VALUES( {n_serie}, {id_bodega}, {cantidad});
+                """
+                self.cursor.execute(sql)
+
             self.connection.commit()
             print("</> Unidades ingresadas con éxito </>")
 
