@@ -64,13 +64,23 @@ CREATE TABLE if not exists Medicamento
     nombre VARCHAR(50) NOT NULL,
 	precio_unitario DECIMAL(10,2) NOT NULL 
 );
-    
+
 CREATE TABLE if not exists Unidad_Medicamento
 (
-	id_medicamento INT NOT NULL, 
-    numero_serie INT PRIMARY KEY, 
+	numero_serie INT PRIMARY KEY, 
+    id_medicamento INT NOT NULL, 
     fecha_caducidad Date NOT NULL,
     FOREIGN KEY(id_medicamento) references Medicamento(id_medicamento)
+);
+
+CREATE TABLE if not exists Farmacia_Unidad_Medicamento
+(
+	id_farmacia INT,
+    numero_serie INT,
+    cantidad INT,
+    PRIMARY KEY(id_farmacia, numero_serie),
+    FOREIGN KEY(numero_serie) references Farmacia(id_farmacia),
+    FOREIGN KEY(numero_serie) references Unidad_Medicamento(numero_serie)
 );
 
 CREATE TABLE if not exists Categoria
@@ -462,6 +472,8 @@ CREATE VIEW frecuencia_compras as
 	order by cat.nombre asc;
     
 -- select * from frecuencia_compras;
+
+#CREATE VIEW 
 
 
 -------------------------------------------------------- PROCEDURES
