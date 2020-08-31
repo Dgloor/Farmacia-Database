@@ -101,16 +101,17 @@ CREATE TABLE if not exists Cliente
     nombre VARCHAR(25) NOT NULL
 );
 
-CREATE TABLE if not exists Factura
-(
-	id_factura INT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Factura (
+    id_factura INT PRIMARY KEY,
     id_empleado VARCHAR(12) NOT NULL,
-    id_cliente VARCHAR(12) NOT NULL, 
-    fecha Date NOT NULL, 
-    total DECIMAL(6,2) NOT NULL,
-    IVA INT NOT NULL, 
-    FOREIGN KEY (id_empleado) references Empleado_Farmacia(id_empleado),
-    FOREIGN KEY (id_cliente) references Cliente(id_cliente)
+    id_cliente VARCHAR(12) NOT NULL,
+    fecha DATE NOT NULL,
+    total DECIMAL(6 , 2 ) NOT NULL,
+    IVA INT NOT NULL,
+    FOREIGN KEY (id_empleado)
+        REFERENCES Empleado_Farmacia (id_empleado),
+    FOREIGN KEY (id_cliente)
+        REFERENCES Cliente (id_cliente)
 );
 
 CREATE TABLE if not exists Venta_Unidad_Medicamento
@@ -755,13 +756,16 @@ BEGIN
 			ON (f.id_farmacia = ef.id_farmacia and ef.id_empleado = fa.id_empleado)
             WHERE new.id_factura = fa.id_factura);
             
-	UPDATE stock_farmacia_medicamento
-		SET stock_actual = (stock_actual - new.cantidad) 
-        WHERE id_medicamento = new.id_medicamento and id_farmacia = @farmacia;
+	UPDATE stock_farmacia_medicamento 
+SET 
+    stock_actual = (stock_actual - new.cantidad)
+WHERE
+    id_medicamento = new.id_medicamento
+        AND id_farmacia = @farmacia;
 END $$ 
 DELIMITER ;
 
--- ALTER TABLE categoria DROP INDEX IF EXISTS idx_categoria;
-CREATE INDEX idx_categoria on categoria(nombre)
-
--- select * from frecuencia_compras;
+-- ALTER TABLE categoria DROP INDEX idx_categoria;
+-- ALTER TABLE cliente DROP INDEX idx_cliente;
+CREATE INDEX idx_categoria on categoria(nombre);
+CREATE INDEX idx_cliente on cliente(nombre);
